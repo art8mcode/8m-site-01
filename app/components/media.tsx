@@ -5,6 +5,7 @@ import { Pause, Play } from 'lucide-react';
 import type { Work } from '../site-data';
 export function ProjectMedia({ media }: { media: NonNullable<Work['media']> }) {
   const ref = useRef<HTMLVideoElement>(null);
+  const inView = useRef(false);
   const [near, setNear] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -15,6 +16,7 @@ export function ProjectMedia({ media }: { media: NonNullable<Work['media']> }) {
     const observer = new IntersectionObserver(
       (entries) => {
         const visible = entries[0].isIntersecting;
+        inView.current = visible;
         if (visible) setNear(true);
         if (!visible || reduced.matches) el.pause();
         else el.play().catch(() => {});
@@ -31,6 +33,15 @@ export function ProjectMedia({ media }: { media: NonNullable<Work['media']> }) {
       reduced.removeEventListener('change', stop);
     };
   }, []);
+  useEffect(() => {
+    if (
+      near &&
+      inView.current &&
+      !matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      ref.current?.play().catch(() => {});
+    }
+  }, [near]);
   if (media.type === 'image' || failed)
     return (
       <Image
