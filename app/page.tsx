@@ -31,10 +31,16 @@ const nav = [
   ['Ціни', 'pricing'],
   ['FAQ', 'faq'],
 ];
-function Wordmark({ className = '' }: { className?: string }) {
+function Wordmark({
+  className = '',
+  registered = true,
+}: {
+  className?: string;
+  registered?: boolean;
+}) {
   return (
     <span className={`wordmark ${className}`}>
-      8m<sup>®</sup>
+      8m{registered && <sup>®</sup>}
     </span>
   );
 }
@@ -121,7 +127,7 @@ export default function Home() {
         </div>
         <div className="hero-top">
           <div className="hero-identity hero-enter">
-            <Wordmark />
+            <Wordmark registered={false} />
             <span className="hero-subtitle">marketing & production</span>
           </div>
           <div className="hero-directions hero-enter">
@@ -197,11 +203,7 @@ export default function Home() {
           Як ми працюємо
         </SectionLabel>
         <Reveal className="section-heading">
-          <h2>
-            Чіткий процес.
-            <br />
-            <span className="muted">Зрозумілий рух.</span>
-          </h2>
+          <h2>Чіткий процес.</h2>
           <p>
             Від першого брифу до запуску — без хаосу, з ясним обсягом, ролями та
             наступними кроками.
@@ -242,18 +244,7 @@ export default function Home() {
         </SectionLabel>
         <div className="services-layout">
           <Reveal>
-            <h2>
-              Стратегія.
-              <br />
-              Кадр.
-              <br />
-              <span className="muted">Система.</span>
-            </h2>
-            <p className="section-description">
-              Окремий напрям або повний цикл.
-              <br />
-              Обираємо формат під ваше завдання.
-            </p>
+            <h2 className="services-intro-title">Формат під завдання.</h2>
           </Reveal>
           <Accordion defaultValue={['marketing']} className="service-list">
             {services.map((s, i) => (
@@ -419,14 +410,6 @@ export default function Home() {
               <br />
               Разом визначимо наступний крок.
             </p>
-            <div className="contact-directions">
-              {services.map((s) => (
-                <button key={s.id} onClick={() => choose(s.name)}>
-                  {s.name}
-                  <ArrowUpRight size={15} />
-                </button>
-              ))}
-            </div>
           </Reveal>
           <Reveal delay={100}>
             <ContactForm service={service} onServiceChange={setService} />

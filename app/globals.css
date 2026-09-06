@@ -2145,6 +2145,9 @@ button:hover > svg {
 .services-layout {
   gap: 6%;
 }
+.services-intro-title {
+  max-width: 9ch;
+}
 .services .section-description {
   margin-top: 22px;
 }
@@ -2242,9 +2245,11 @@ button:hover > svg {
 .contact-layout {
   gap: 6%;
 }
-.contact-directions {
-  margin-top: 32px;
-  gap: 12px;
+.combined-section .editorial-copy {
+  gap: 10px;
+}
+.combined-section .editorial-copy p + p {
+  margin-top: 0;
 }
 .contact-form {
   padding: 26px;
@@ -2371,6 +2376,9 @@ button:hover > svg {
   .services h2 {
     font-size: 2.6rem;
     line-height: 1.04;
+  }
+  .combined-section .editorial-copy {
+    gap: 8px;
   }
   .services .section-description {
     font-size: 0.9375rem;

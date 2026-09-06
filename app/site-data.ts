@@ -215,8 +215,8 @@ export const works: Work[] = [
     orientation: 'landscape',
     media: {
       type: 'video',
-      src: '/media/clip-6.mp4',
-      poster: '/media/clip-6.jpg',
+      src: '/media/clip-7.mp4',
+      poster: '/media/clip-7.jpg',
       alt: 'Відеоприклад дизайну та візуальної мови бренду',
     },
   },
