@@ -26,7 +26,7 @@ const nav = [
   ['Marketing', 'marketing'],
   ['Reels Production', 'reels'],
   ['Marketing + Reels Production', 'combined'],
-  ['Підхід', 'approach'],
+  ['Як ми працюємо', 'approach'],
   ['Послуги', 'services'],
   ['Ціни', 'pricing'],
   ['FAQ', 'faq'],
@@ -153,7 +153,7 @@ export default function Home() {
               Продакшн надає йому форму.
             </p>
             <a className="text-link" href="#reels">
-              Дивитися відео
+              Дивитися роботи
               <ArrowDown size={16} />
             </a>
           </div>
@@ -175,12 +175,7 @@ export default function Home() {
             </div>
             <div className="person-copy">
               <span className="meta">НА ЗВ’ЯЗКУ / 8M STUDIO</span>
-              <strong>
-                Ваш наступний
-                <br />
-                проєкт починається
-                <br />з розмови.
-              </strong>
+              <strong>Ваш наступний проєкт починається з розмови.</strong>
               <span className="person-button">
                 Є ідея?
                 <span className="circle">
@@ -198,18 +193,18 @@ export default function Home() {
       </div>
       <ServiceNarratives />
       <section id="approach" className="section approach">
-        <SectionLabel number="04" note="WHY 8M">
-          Наш підхід
+        <SectionLabel number="04" note="HOW WE WORK">
+          Як ми працюємо
         </SectionLabel>
         <Reveal className="section-heading">
           <h2>
-            Не окремі дії.
+            Чіткий процес.
             <br />
-            <span className="muted">Спільний напрям.</span>
+            <span className="muted">Зрозумілий рух.</span>
           </h2>
           <p>
-            Поєднуємо мислення маркетологів
-            <br />і увагу продакшну до деталей.
+            Від першого брифу до запуску — без хаосу, з ясним обсягом, ролями та
+            наступними кроками.
           </p>
         </Reveal>
         <div className="principle-grid">
@@ -217,7 +212,12 @@ export default function Home() {
             <Reveal delay={i * 80} key={title}>
               <article className="principle">
                 <span className="meta">
-                  0{i + 1} <Plus size={17} />
+                  0{i + 1}
+                  <span className="progress-dots" aria-hidden="true">
+                    {[0, 1, 2, 3].map((dot) => (
+                      <i key={dot} className={dot <= i ? 'filled' : ''} />
+                    ))}
+                  </span>
                 </span>
                 <h3>{title}</h3>
                 <p>{text}</p>
@@ -227,6 +227,16 @@ export default function Home() {
         </div>
       </section>
       <section id="services" className="section services">
+        <div className="services-background">
+          <ProjectMedia
+            media={{
+              type: 'video',
+              src: '/media/services-texture.mp4',
+              poster: '/media/services-texture.jpg',
+              alt: 'Темна рухома текстура',
+            }}
+          />
+        </div>
         <SectionLabel number="05" note="WHAT WE DO">
           Послуги
         </SectionLabel>
@@ -327,14 +337,16 @@ export default function Home() {
                         <PriceLabel price={p.price} />
                       </div>
                       <p className="price-description">{p.description}</p>
-                      <ul>
-                        {p.deliverables.map((d) => (
-                          <li key={d}>
-                            <Plus size={13} />
-                            {d}
-                          </li>
-                        ))}
-                      </ul>
+                      {p.deliverables.length > 0 && (
+                        <ul>
+                          {p.deliverables.map((d) => (
+                            <li key={d}>
+                              <Plus size={13} />
+                              {d}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                       {p.supporting && (
                         <p className="pricing-support">{p.supporting}</p>
                       )}
@@ -342,7 +354,9 @@ export default function Home() {
                         className={`button ${i === 2 ? 'button-dark' : 'button-light'}`}
                         onClick={() => choose(s.name)}
                       >
-                        Обговорити проєкт
+                        {mode === 'project'
+                          ? 'Обговорити проєкт'
+                          : 'Обговорити формат'}
                         <ArrowUpRight size={18} />
                       </button>
                     </article>
@@ -355,7 +369,7 @@ export default function Home() {
       </section>
       <section id="faq" className="section faq">
         <SectionLabel number="07" note="GOOD TO KNOW">
-          Питання та відповіді
+          FAQ
         </SectionLabel>
         <div className="faq-layout">
           <Reveal>
