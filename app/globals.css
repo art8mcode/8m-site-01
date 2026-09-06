@@ -1723,3 +1723,322 @@ button:hover > svg {
     grid-row: auto;
   }
 }
+/* V1.2: editorial service narratives within the established visual system. */
+.direction-section,
+.reels-section,
+.combined-section {
+  border-bottom: 1px solid var(--border-light);
+}
+.editorial-layout {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 9%;
+  align-items: start;
+}
+.editorial-layout h2 {
+  font-size: clamp(2.7rem, 5vw, 5.25rem);
+  text-wrap: balance;
+}
+.editorial-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.editorial-copy p {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  letter-spacing: -0.018em;
+}
+.editorial-copy p + p {
+  margin-top: 24px;
+}
+.editorial-copy .lead-copy {
+  font-size: var(--type-lead);
+  color: var(--text-primary);
+  line-height: 1.5;
+  letter-spacing: -0.025em;
+}
+.competency-tags {
+  margin: 10px 0 0;
+  gap: 8px;
+}
+.reels-intro {
+  margin-bottom: 58px;
+}
+.production-grid {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: 36px 28px;
+  align-items: start;
+}
+.production-grid > .reveal:first-child {
+  grid-row: span 2;
+}
+.production-example {
+  margin: 0;
+}
+.production-example figcaption {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 13px;
+  line-height: 1.5;
+}
+.production-example figcaption > .meta {
+  font-size: 0.75rem;
+  letter-spacing: 0.025em;
+  color: var(--text-secondary);
+}
+.production-example figcaption > span:last-child {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  text-align: right;
+}
+.production-media {
+  position: relative;
+  aspect-ratio: 16/9;
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--surface-dark);
+}
+.production-portrait .production-media {
+  aspect-ratio: 1180/1588;
+}
+.production-media video,
+.production-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 700ms var(--ease);
+}
+.production-media:hover video,
+.production-media:hover img {
+  transform: scale(1.025);
+}
+.process-sequence {
+  list-style: none;
+  padding: 0;
+  margin: 60px 0 30px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  border: 1px solid var(--border-light);
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--surface-light);
+}
+.process-sequence li {
+  border-right: 1px solid var(--border-light);
+  min-width: 0;
+}
+.process-sequence li:last-child {
+  border-right: 0;
+  background: var(--accent);
+}
+.process-sequence li > .reveal {
+  padding: 25px 20px 29px;
+  position: relative;
+  min-height: 145px;
+}
+.process-sequence .meta {
+  display: block;
+  color: var(--text-secondary);
+  margin-bottom: 30px;
+}
+.process-name {
+  font-size: clamp(1.0625rem, 1.65vw, 1.6rem);
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+}
+.process-arrow {
+  position: absolute;
+  right: 17px;
+  top: 20px;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+}
+.combined-note {
+  margin-left: auto;
+  max-width: 680px;
+}
+.combined-note p {
+  font-size: var(--type-lead);
+  color: var(--text-secondary);
+  letter-spacing: -0.025em;
+  line-height: 1.5;
+}
+.price-value {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-height: 78px;
+}
+.price-value small {
+  font-size: 0.875rem;
+  letter-spacing: 0;
+  color: var(--text-muted-on-dark);
+  line-height: 1.4;
+}
+.featured .price-value small {
+  color: #555c43;
+}
+.pricing-support {
+  font-size: 0.875rem;
+  color: var(--text-muted-on-dark);
+  line-height: 1.5;
+  margin: 8px 0 26px;
+}
+.featured .pricing-support {
+  color: #555c43;
+}
+.price-card ul {
+  margin-bottom: 18px;
+}
+.price-card .button {
+  margin-top: auto;
+}
+.price-card {
+  animation: pricing-in 320ms var(--ease) both;
+}
+.price-card:nth-child(2) {
+  animation-delay: 60ms;
+}
+.price-card:nth-child(3) {
+  animation-delay: 120ms;
+}
+@media (max-width: 1100px) {
+  .header nav {
+    gap: 30px;
+  }
+  .editorial-layout {
+    gap: 6%;
+  }
+  .process-sequence li > .reveal {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .production-example figcaption {
+    flex-direction: column;
+    gap: 3px;
+  }
+  .production-example figcaption > span:last-child {
+    text-align: left;
+  }
+}
+@media (max-width: 760px) {
+  .editorial-layout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .editorial-layout h2 {
+    font-size: clamp(2.5rem, 7.8vw, 3.5rem);
+  }
+  .editorial-copy {
+    gap: 22px;
+  }
+  .editorial-copy p {
+    font-size: 1rem;
+  }
+  .editorial-copy .lead-copy {
+    font-size: 1.125rem;
+  }
+  .competency-tags {
+    margin-top: 0;
+  }
+  .reels-intro {
+    margin-bottom: 38px;
+  }
+  .production-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .production-grid > .reveal:first-child {
+    grid-row: auto;
+  }
+  .production-example figcaption {
+    flex-direction: row;
+    gap: 10px;
+    align-items: baseline;
+  }
+  .production-example figcaption > span:last-child {
+    text-align: right;
+    font-size: 0.8125rem;
+  }
+  .production-example figcaption > .meta {
+    font-size: 0.75rem;
+    flex-shrink: 0;
+  }
+  .production-media {
+    border-radius: 16px;
+  }
+  .process-sequence {
+    grid-template-columns: 1fr;
+    margin-top: 35px;
+    margin-bottom: 25px;
+  }
+  .process-sequence li {
+    border-right: 0;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .process-sequence li:last-child {
+    border-bottom: 0;
+  }
+  .process-sequence li > .reveal {
+    min-height: 0;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 23px;
+  }
+  .process-sequence .meta {
+    margin: 0;
+  }
+  .process-name {
+    font-size: 1.35rem;
+  }
+  .process-arrow {
+    position: static;
+    transform: rotate(90deg);
+    margin-left: auto;
+  }
+  .combined-note p {
+    font-size: 1.125rem;
+  }
+  .price-value {
+    min-height: 0;
+  }
+  .price-description {
+    min-height: 0;
+  }
+  .pricing-support {
+    margin: 4px 0 23px;
+  }
+  .combined-section .section-label > span:first-child {
+    max-width: 240px;
+  }
+}
+@media (max-width: 380px) {
+  .production-example figcaption {
+    flex-direction: column;
+    gap: 2px;
+  }
+  .production-example figcaption > span:last-child {
+    text-align: left;
+  }
+  .combined-section .section-label {
+    gap: 12px;
+  }
+  .combined-section .section-label > span:first-child {
+    max-width: 210px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .price-card {
+    animation: none !important;
+  }
+  .production-media video,
+  .production-media img {
+    transition: none !important;
+  }
+}

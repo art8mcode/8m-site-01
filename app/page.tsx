@@ -10,15 +10,8 @@ import {
 } from '@/components/ui/accordion';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog';
-import {
   services,
   pricing,
-  works,
   principles,
   faqs,
   contact,
@@ -27,8 +20,12 @@ import {
 import { Reveal } from './components/reveal';
 import { ProjectMedia } from './components/media';
 import { ContactForm } from './components/contact-form';
+import { SectionLabel } from './components/section-label';
+import { ServiceNarratives } from './components/service-narratives';
 const nav = [
-  ['Портфоліо', 'work'],
+  ['Marketing', 'marketing'],
+  ['Reels Production', 'reels'],
+  ['Marketing + Reels Production', 'combined'],
   ['Підхід', 'approach'],
   ['Послуги', 'services'],
   ['Ціни', 'pricing'],
@@ -41,40 +38,24 @@ function Wordmark({ className = '' }: { className?: string }) {
     </span>
   );
 }
-function SectionLabel({
-  number,
-  children,
-  note,
-}: {
-  number: string;
-  children: React.ReactNode;
-  note?: string;
-}) {
-  return (
-    <Reveal className="section-label">
-      <span>
-        {number} / {children}
-      </span>
-      {note && <span>{note}</span>}
-    </Reveal>
-  );
-}
 function PriceLabel({ price }: { price: Price }) {
+  if (price.kind === 'request') return <>За запитом</>;
   return (
     <>
-      {price.kind === 'request'
-        ? 'За запитом'
-        : `${price.kind === 'from' ? 'від ' : ''}${price.amount} ${price.currency}`}
+      <span>
+        {price.kind === 'from' ? 'від ' : ''}
+        {price.currency}
+        {price.amount}
+      </span>
+      <small>/ {price.period}</small>
     </>
   );
 }
 export default function Home() {
   const [menu, setMenu] = useState(false);
   const [service, setService] = useState('');
-  const [selected, setSelected] = useState<number | null>(null);
   function choose(value: string) {
     setService(value);
-    setSelected(null);
     document.getElementById('contact')?.scrollIntoView({
       behavior: matchMedia('(prefers-reduced-motion: reduce)').matches
         ? 'instant'
@@ -83,7 +64,7 @@ export default function Home() {
   }
   return (
     <main id="top">
-      <a className="skip-link" href="#work">
+      <a className="skip-link" href="#reels">
         До основного вмісту
       </a>
       <header className="header">
@@ -92,7 +73,7 @@ export default function Home() {
         </a>
         <nav aria-label="Головна навігація">
           {nav
-            .filter(([, id]) => id !== 'approach' && id !== 'faq')
+            .filter(([, id]) => ['marketing', 'reels', 'pricing'].includes(id))
             .map(([name, id]) => (
               <a key={id} href={`#${id}`}>
                 {name}
@@ -146,7 +127,7 @@ export default function Home() {
           <div className="hero-directions hero-enter">
             <span className="meta">ТРИ НАПРЯМИ. ОДНА КОМАНДА.</span>
             {services.map((s, i) => (
-              <a key={s.id} href="#services">
+              <a key={s.id} href={`#${s.id}`}>
                 <span>0{i + 1}</span>
                 {s.name}
               </a>
@@ -171,8 +152,8 @@ export default function Home() {
               <br />
               Продакшн надає йому форму.
             </p>
-            <a className="text-link" href="#work">
-              Дивитися роботи
+            <a className="text-link" href="#reels">
+              Дивитися відео
               <ArrowDown size={16} />
             </a>
           </div>
@@ -215,74 +196,9 @@ export default function Home() {
         <span>Стратегія · Контент · Просування</span>
         <span>8M STUDIO © 2026</span>
       </div>
-      <section id="work" className="section">
-        <SectionLabel number="01" note="SELECTED WORK">
-          Портфоліо
-        </SectionLabel>
-        <Reveal className="section-heading">
-          <h2>
-            Робота, що
-            <br />
-            привертає увагу.
-          </h2>
-          <p>
-            Від ідеї в кадрі до присутності бренду.
-            <br />
-            Кожне рішення має свою мету.
-          </p>
-        </Reveal>
-        <div className="work-grid">
-          {works.map((w, i) => (
-            <Reveal key={w.id} delay={i * 80}>
-              <article className="work-card">
-                <div className={`work-media work-${w.id}`}>
-                  {w.media ? (
-                    <ProjectMedia media={w.media} />
-                  ) : (
-                    <>
-                      <span className="work-stamp meta">
-                        8M / VISUAL CONCEPT / 0{i + 1}
-                      </span>
-                      <span className="concept-type">
-                        {i === 0 ? 'motion.' : 'seen.'}
-                      </span>
-                      <span className="concept-caption meta">
-                        {i === 0
-                          ? 'THE IDEA TAKES SHAPE'
-                          : 'MAKE YOUR BRAND SEEN'}
-                      </span>
-                    </>
-                  )}
-                  {w.href ? (
-                    <a
-                      href={w.href}
-                      className="work-arrow"
-                      aria-label={`Відкрити ${w.title}`}
-                    >
-                      <ArrowUpRight />
-                    </a>
-                  ) : (
-                    <button
-                      onClick={() => setSelected(i)}
-                      className="work-arrow"
-                      aria-label={`Докладніше про ${w.title}`}
-                    >
-                      <ArrowUpRight />
-                    </button>
-                  )}
-                </div>
-                <div className="work-description">
-                  <h3>{w.title}</h3>
-                  <span>{w.category}</span>
-                </div>
-                <p className="work-note">{w.note}</p>
-              </article>
-            </Reveal>
-          ))}
-        </div>
-      </section>
+      <ServiceNarratives />
       <section id="approach" className="section approach">
-        <SectionLabel number="02" note="WHY 8M">
+        <SectionLabel number="04" note="WHY 8M">
           Наш підхід
         </SectionLabel>
         <Reveal className="section-heading">
@@ -311,7 +227,7 @@ export default function Home() {
         </div>
       </section>
       <section id="services" className="section services">
-        <SectionLabel number="03" note="WHAT WE DO">
+        <SectionLabel number="05" note="WHAT WE DO">
           Послуги
         </SectionLabel>
         <div className="services-layout">
@@ -349,7 +265,7 @@ export default function Home() {
                       className="text-link"
                       onClick={() => choose(s.name)}
                     >
-                      Обговорити {s.name}
+                      {s.cta}
                       <ArrowUpRight size={16} />
                     </button>
                   </AccordionContent>
@@ -360,19 +276,21 @@ export default function Home() {
         </div>
       </section>
       <section id="pricing" className="pricing section">
-        <SectionLabel number="04" note="CHOOSE YOUR FORMAT">
-          Вартість
+        <SectionLabel number="06" note="CHOOSE YOUR FORMAT">
+          Формат співпраці
         </SectionLabel>
         <Reveal className="section-heading">
           <h2>
-            Ваші цілі.
+            Формат
             <br />
-            <span>Ваш формат.</span>
+            співпраці.
           </h2>
           <p>
-            Обсяг і вартість погоджуємо до старту.
+            Разовий проєкт або системна щомісячна робота.
             <br />
-            Проєктно або в ритмі щомісячної роботи.
+            <br />
+            Обсяг, склад команди та фінальну вартість формуємо відповідно до
+            задачі.
           </p>
         </Reveal>
         <Tabs defaultValue="project" className="pricing-tabs">
@@ -417,12 +335,14 @@ export default function Home() {
                           </li>
                         ))}
                       </ul>
-                      <p className="timeline">{p.timeline}</p>
+                      {p.supporting && (
+                        <p className="pricing-support">{p.supporting}</p>
+                      )}
                       <button
                         className={`button ${i === 2 ? 'button-dark' : 'button-light'}`}
                         onClick={() => choose(s.name)}
                       >
-                        Обговорити вартість
+                        Обговорити проєкт
                         <ArrowUpRight size={18} />
                       </button>
                     </article>
@@ -434,7 +354,7 @@ export default function Home() {
         </Tabs>
       </section>
       <section id="faq" className="section faq">
-        <SectionLabel number="05" note="GOOD TO KNOW">
+        <SectionLabel number="07" note="GOOD TO KNOW">
           Питання та відповіді
         </SectionLabel>
         <div className="faq-layout">
@@ -468,7 +388,7 @@ export default function Home() {
         </div>
       </section>
       <section id="contact" className="section contact-section">
-        <SectionLabel number="06" note="LET’S MAKE IT HAPPEN">
+        <SectionLabel number="08" note="LET’S MAKE IT HAPPEN">
           Контакт
         </SectionLabel>
         <div className="contact-layout">
@@ -551,31 +471,6 @@ export default function Home() {
           </a>
         </div>
       </footer>
-      <Dialog
-        open={selected !== null}
-        onOpenChange={(open) => {
-          if (!open) setSelected(null);
-        }}
-      >
-        <DialogContent className="work-dialog">
-          {selected !== null && (
-            <>
-              <DialogTitle>{works[selected].title}</DialogTitle>
-              <DialogDescription>
-                {works[selected].note}. Назва клієнта, завдання та опис
-                результатів будуть додані після уточнення деталей проєкту.
-              </DialogDescription>
-              <button
-                className="button button-dark"
-                onClick={() => choose(works[selected].category)}
-              >
-                Обговорити проєкт
-                <ArrowUpRight size={18} />
-              </button>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
     </main>
   );
 }
