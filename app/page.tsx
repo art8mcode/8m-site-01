@@ -22,6 +22,7 @@ import { ProjectMedia } from './components/media';
 import { ContactForm } from './components/contact-form';
 import { SectionLabel } from './components/section-label';
 import { ServiceNarratives } from './components/service-narratives';
+import { MobileBottomBlur, StartupIntro } from './components/site-motion';
 const nav = [
   ['Marketing', 'marketing'],
   ['Reels Production', 'reels'],
@@ -70,6 +71,7 @@ export default function Home() {
   }
   return (
     <main id="top">
+      <StartupIntro />
       <a className="skip-link" href="#reels">
         До основного вмісту
       </a>
@@ -468,6 +470,7 @@ export default function Home() {
           </a>
         </div>
       </footer>
+      <MobileBottomBlur />
     </main>
   );
 }
