@@ -556,8 +556,8 @@ export const siteCopy: Record<Locale, SiteCopy> = {
           'Analytics & Data',
           'CRM / Databases',
         ],
-        image: '/media/team-performance.png',
-        imageAlt: 'Ihor — Memoji з темним зачесаним волоссям і легкою щетиною',
+        image: '/media/team-ihor.png',
+        imageAlt: 'Ihor — Memoji з темним волоссям, карими очима та веснянками',
       },
       {
         name: 'Karina',
@@ -987,9 +987,8 @@ export const siteCopy: Record<Locale, SiteCopy> = {
           'Analytics & Data',
           'CRM / Databases',
         ],
-        image: '/media/team-performance.png',
-        imageAlt:
-          'Ihor — Memoji with dark swept-back hair and light facial hair',
+        image: '/media/team-ihor.png',
+        imageAlt: 'Ihor — Memoji with dark hair, brown eyes and freckles',
       },
       {
         name: 'Karina',
@@ -1416,9 +1415,9 @@ export const siteCopy: Record<Locale, SiteCopy> = {
           'Analytics & Data',
           'CRM / Databases',
         ],
-        image: '/media/team-performance.png',
+        image: '/media/team-ihor.png',
         imageAlt:
-          'Ihor — Memoji z ciemnymi zaczesanymi włosami i lekkim zarostem',
+          'Ihor — Memoji z ciemnymi włosami, brązowymi oczami i piegami',
       },
       {
         name: 'Karina',
