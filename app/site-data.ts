@@ -57,6 +57,7 @@ export const pricing: Record<
     description: string;
     supporting?: string;
     deliverables: string[];
+    cta: string;
   }[]
 > = {
   project: [
@@ -69,12 +70,13 @@ export const pricing: Record<
       },
       description: 'Разова стратегічна або маркетингова задача навколо бренду.',
       deliverables: [
-        'Стратегія',
-        'Позиціонування',
-        'Контент-напрям',
-        'Рекламний запуск',
-        'Оптимізація',
+        'Strategy',
+        'Positioning',
+        'Campaign structure',
+        'Content direction',
+        'Launch plan',
       ],
+      cta: 'Обговорити проєкт',
     },
     {
       price: {
@@ -83,69 +85,80 @@ export const pricing: Record<
         currency: '$',
         period: 'project',
       },
-      description: 'Разовий продакшн під конкретну задачу або серію контенту.',
+      description:
+        'Разовий production під конкретну задачу або серію короткого контенту.',
       deliverables: [
-        'Концепція',
-        'Сценарій',
-        'Зйомка',
-        'Монтаж',
-        'Адаптація під платформу',
+        'Creative concept',
+        'Pre-production',
+        'Shooting',
+        'Editing',
+        'Color & sound',
+        'Final delivery',
       ],
+      cta: 'Обговорити проєкт',
     },
     {
       price: { kind: 'request' },
       description:
-        'Комплексна робота, коли стратегія, контент і просування збираються в одну систему.',
+        'Комплексна робота, де стратегія, content production і просування збираються в одну систему.',
       supporting:
         'Scope, команда та бюджет формуються після короткого брифу і знайомства із задачею.',
       deliverables: [
-        'Стратегія',
-        'Серія reels',
-        'Запуск і дистрибуція',
-        'Аналітика та висновки',
-        'Подальший цикл',
+        'Strategy',
+        'Content system',
+        'Production',
+        'Distribution',
+        'Campaign launch',
+        'Analytics',
       ],
+      cta: 'Обговорити проєкт',
     },
   ],
   monthly: [
     {
       price: { kind: 'from', amount: '1,000', currency: '$', period: 'month' },
-      description: 'Постійна маркетингова робота навколо задач бренду.',
+      description:
+        'Постійна маркетингова робота навколо задач бренду. Стратегія, контент, просування та оптимізація в одному робочому циклі.',
       deliverables: [
-        'Оновлення стратегії',
-        'Контент-напрям',
-        'Управління кампаніями',
-        'Дистрибуція',
-        'Аналітика та оптимізація',
+        'Strategy updates',
+        'Positioning',
+        'Content direction',
+        'Campaign management',
+        'Distribution',
+        'Analytics & optimization',
       ],
+      cta: 'Обговорити Marketing',
     },
     {
       price: { kind: 'from', amount: '2,000', currency: '$', period: 'month' },
       description:
-        'Регулярний продакшн і монтаж контенту для системної присутності бренду.',
+        'Регулярний production короткого відеоконтенту для системної присутності бренду.',
       deliverables: [
-        'Контент-планування',
-        'Production',
-        'Знімальні дні',
-        'Монтаж',
-        'Підготовка матеріалів',
-        'Ітерації',
+        'Content planning',
+        'Creative concept',
+        'Shooting',
+        'Editing',
+        'Color & sound',
+        'Delivery',
+        'Iterations',
       ],
+      cta: 'Обговорити Reels Production',
     },
     {
       price: { kind: 'from', amount: '2,500', currency: '$', period: 'month' },
       description:
-        'Повний щомісячний цикл: стратегія, контент, просування й оптимізація.',
+        'Стратегія, production і просування в одному регулярному циклі.',
       supporting:
         'Фінальний scope і бюджет залежать від кількості контенту, production-обсягу, рекламної активності та задач бренду.',
       deliverables: [
-        'Стратегія',
-        'Контент-система',
+        'Strategy',
+        'Content system',
         'Production',
-        'Запуск кампаній',
-        'Дистрибуція',
-        'Аналітика та оптимізація',
+        'Campaign launch',
+        'Distribution',
+        'Analytics & optimization',
       ],
+      cta: 'Обговорити комплексну роботу',
     },
   ],
 };

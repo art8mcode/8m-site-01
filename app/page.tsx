@@ -15,6 +15,7 @@ import {
   principles,
   faqs,
   contact,
+  type BillingMode,
   type Price,
 } from './site-data';
 import { Reveal } from './components/reveal';
@@ -61,6 +62,7 @@ function PriceLabel({ price }: { price: Price }) {
 export default function Home() {
   const [menu, setMenu] = useState(false);
   const [service, setService] = useState('');
+  const [billingMode, setBillingMode] = useState<BillingMode>('monthly');
   function choose(value: string) {
     setService(value);
     document.getElementById('contact')?.scrollIntoView({
@@ -296,11 +298,19 @@ export default function Home() {
             задачі.
           </p>
         </Reveal>
-        <Tabs defaultValue="project" className="pricing-tabs">
+        <Tabs
+          value={billingMode}
+          onValueChange={(value) => setBillingMode(value as BillingMode)}
+          className="pricing-tabs"
+        >
           <Reveal className="pricing-toolbar">
-            <TabsList className="billing-toggle" aria-label="Формат співпраці">
-              <TabsTrigger value="project">Проєктно</TabsTrigger>
+            <TabsList
+              className="billing-toggle"
+              aria-label="Формат співпраці"
+              data-mode={billingMode}
+            >
               <TabsTrigger value="monthly">Щомісяця</TabsTrigger>
+              <TabsTrigger value="project">Проєктно</TabsTrigger>
             </TabsList>
             <span className="meta">
               ТРИ НАПРЯМИ · ІНДИВІДУАЛЬНИЙ РОЗРАХУНОК
@@ -312,46 +322,48 @@ export default function Home() {
                 {services.map((s, i) => {
                   const p = pricing[mode][i];
                   return (
-                    <article
-                      key={s.id}
-                      className={`price-card ${i === 2 ? 'featured' : ''}`}
-                    >
-                      <div className="price-card-label meta">
-                        <span>
-                          0{i + 1} /{' '}
-                          {mode === 'project' ? 'PROJECT' : 'MONTHLY'}
-                        </span>
-                        {i === 2 && (
-                          <span className="package-label">ПОВНИЙ ЦИКЛ</span>
+                    <article key={s.id} className="pricing-package">
+                      <div className="price-card-top">
+                        <div className="price-card-title-row">
+                          <div className="price-card-title">
+                            <span className="meta">0{i + 1}</span>
+                            <h3>{s.name}</h3>
+                          </div>
+                          <span className="price-brand" aria-label="8m">
+                            8m<sup>®</sup>
+                          </span>
+                        </div>
+                        <div className="price-value">
+                          <PriceLabel price={p.price} />
+                        </div>
+                        <p className="price-description">{p.description}</p>
+                        {p.supporting && (
+                          <p className="pricing-support">{p.supporting}</p>
                         )}
                       </div>
-                      <h3>{s.name}</h3>
-                      <div className="price-value">
-                        <PriceLabel price={p.price} />
-                      </div>
-                      <p className="price-description">{p.description}</p>
-                      {p.deliverables.length > 0 && (
+                      <div className="price-card-details">
+                        <p className="included-title">Що входить:</p>
                         <ul>
                           {p.deliverables.map((d) => (
                             <li key={d}>
-                              <Plus size={13} />
+                              <span
+                                className="included-icon"
+                                aria-hidden="true"
+                              >
+                                <Plus size={11} />
+                              </span>
                               {d}
                             </li>
                           ))}
                         </ul>
-                      )}
-                      {p.supporting && (
-                        <p className="pricing-support">{p.supporting}</p>
-                      )}
-                      <button
-                        className={`button ${i === 2 ? 'button-dark' : 'button-light'}`}
-                        onClick={() => choose(s.name)}
-                      >
-                        {mode === 'project'
-                          ? 'Обговорити проєкт'
-                          : 'Обговорити формат'}
-                        <ArrowUpRight size={18} />
-                      </button>
+                        <button
+                          className="pricing-cta"
+                          onClick={() => choose(s.name)}
+                        >
+                          {p.cta}
+                          <ArrowUpRight size={18} />
+                        </button>
+                      </div>
                     </article>
                   );
                 })}
