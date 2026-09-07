@@ -2883,3 +2883,346 @@ button:hover > svg {
     transition: none !important;
   }
 }
+
+/* V1.7: stronger typography and a denser mobile-first rhythm. */
+h1,
+h2,
+h3 {
+  font-weight: 600;
+}
+.section {
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+.section-label {
+  margin-bottom: 26px;
+}
+.section-heading {
+  margin-bottom: 28px;
+}
+.editorial-layout {
+  gap: 6%;
+}
+.editorial-copy {
+  gap: 14px;
+}
+.editorial-copy p {
+  color: rgb(0 0 0 / 62%);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+.editorial-copy p + p {
+  margin-top: 12px;
+}
+.editorial-copy .lead-copy {
+  color: rgb(0 0 0 / 88%);
+  font-size: clamp(1.0625rem, 1.25vw, 1.25rem);
+  font-weight: 500;
+  line-height: 1.42;
+}
+.combined-note {
+  margin-top: 28px;
+}
+.combined-note p {
+  color: rgb(0 0 0 / 62%);
+  font-size: clamp(1rem, 1.2vw, 1.125rem);
+  line-height: 1.45;
+}
+.reels-intro {
+  margin-bottom: 30px;
+}
+.production-grid {
+  gap: 28px 20px;
+}
+.production-media {
+  box-shadow:
+    0 2px 7px rgb(0 0 0 / 5%),
+    0 16px 34px rgb(0 0 0 / 8%);
+}
+.principle-grid {
+  gap: 10px;
+}
+.principle {
+  padding: 18px;
+  border-radius: 16px;
+  box-shadow:
+    0 2px 6px rgb(0 0 0 / 5%),
+    0 13px 28px rgb(0 0 0 / 8%);
+}
+.principle > .meta {
+  margin-bottom: 18px;
+}
+.principle h3 {
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+.principle p {
+  color: rgb(0 0 0 / 60%);
+  font-size: 0.9375rem;
+  line-height: 1.42;
+}
+.service-trigger {
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
+.service-name {
+  font-weight: 600;
+}
+.service-answer {
+  padding-bottom: 18px !important;
+}
+.service-answer p {
+  color: rgb(255 255 255 / 68%);
+  line-height: 1.48;
+}
+.faq-list {
+  gap: 6px;
+}
+.faq-item {
+  border-color: rgb(0 0 0 / 9%) !important;
+  border-radius: 14px;
+  box-shadow:
+    0 2px 5px rgb(0 0 0 / 4%),
+    0 9px 22px rgb(0 0 0 / 6%);
+}
+.faq-trigger {
+  padding: 16px 18px !important;
+  font-weight: 500;
+}
+.faq-answer {
+  padding: 0 18px 16px !important;
+}
+.faq-answer p {
+  color: rgb(0 0 0 / 62%);
+  font-size: 0.9375rem;
+  line-height: 1.46;
+}
+.contact-section {
+  padding-top: 42px;
+  padding-bottom: 42px;
+}
+.contact-layout {
+  gap: 5%;
+}
+.contact-form {
+  box-shadow:
+    0 5px 13px rgb(0 0 0 / 13%),
+    0 20px 42px rgb(0 0 0 / 28%);
+}
+.footer {
+  padding-top: 34px;
+  padding-bottom: 20px;
+}
+.footer-top {
+  gap: 36px;
+  padding-bottom: 36px;
+}
+.footer-brand > span:last-child {
+  margin-top: 20px;
+}
+.person-copy strong {
+  display: block;
+  word-break: normal;
+  overflow-wrap: normal;
+  word-spacing: 0.02em;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+}
+
+@media (max-width: 760px) {
+  .section {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+  .section-label {
+    margin-bottom: 21px;
+  }
+  .section-heading {
+    margin-bottom: 22px;
+  }
+  .section-heading p {
+    margin-top: 18px;
+    line-height: 1.42;
+  }
+  .editorial-layout {
+    gap: 18px;
+  }
+  .editorial-layout h2 {
+    font-size: clamp(2.35rem, 10vw, 3.2rem);
+  }
+  .editorial-copy {
+    gap: 11px;
+  }
+  .editorial-copy p {
+    font-size: 0.9375rem;
+    line-height: 1.44;
+  }
+  .editorial-copy p + p {
+    margin-top: 10px;
+  }
+  .editorial-copy .lead-copy {
+    font-size: 1.0625rem;
+    line-height: 1.4;
+  }
+  .combined-note {
+    margin-top: 20px;
+  }
+  .combined-note p {
+    font-size: 1rem;
+    line-height: 1.42;
+  }
+  .reels-intro {
+    margin-bottom: 26px;
+  }
+  .production-grid {
+    gap: 24px;
+  }
+  .principle-grid {
+    gap: 8px;
+  }
+  .principle {
+    padding: 14px 15px 16px;
+  }
+  .principle > .meta {
+    margin-bottom: 12px;
+  }
+  .principle h3 {
+    margin-bottom: 7px;
+    font-size: 1.2rem;
+  }
+  .principle p {
+    font-size: 0.9rem;
+    line-height: 1.38;
+  }
+  .services-layout,
+  .faq-layout {
+    gap: 22px;
+  }
+  .service-trigger {
+    padding-top: 17px;
+    padding-bottom: 17px;
+  }
+  .service-answer {
+    padding-bottom: 16px !important;
+  }
+  .faq-trigger {
+    padding: 14px 15px !important;
+    font-size: 0.9375rem;
+  }
+  .faq-answer {
+    padding: 0 15px 14px !important;
+  }
+  .pricing {
+    padding-top: 32px;
+    padding-bottom: 34px;
+  }
+  .pricing .section-label,
+  .pricing .section-heading {
+    margin-bottom: 16px;
+  }
+  .pricing-toolbar {
+    gap: 11px;
+    margin-bottom: 14px;
+  }
+  .billing-toggle {
+    height: 41px !important;
+  }
+  .billing-toggle [data-slot='tabs-trigger'] {
+    min-height: 31px;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+  }
+  .pricing-grid {
+    gap: 10px;
+  }
+  .pricing-package {
+    padding: 4px;
+    border-radius: 20px;
+  }
+  .price-card-top {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+  .price-card-top h3 {
+    font-size: 1.32rem;
+  }
+  .price-value {
+    margin: 13px 0 9px;
+    font-size: clamp(1.9rem, 9.2vw, 2.25rem);
+  }
+  .price-description {
+    font-size: 0.9rem;
+    line-height: 1.34;
+  }
+  .pricing-support {
+    margin-top: 8px;
+    font-size: 0.8rem;
+    line-height: 1.38;
+  }
+  .price-card-details {
+    padding: 14px 12px 10px;
+  }
+  .included-title {
+    margin-bottom: 9px;
+    font-size: 0.8125rem;
+  }
+  .price-card-details ul {
+    gap: 5px;
+    padding-bottom: 12px;
+  }
+  .price-card-details li {
+    font-size: 0.85rem;
+  }
+  .included-icon {
+    width: 14px;
+    height: 14px;
+  }
+  .pricing-cta {
+    min-height: 43px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 0.9rem;
+  }
+  .contact-section {
+    padding-top: 36px;
+    padding-bottom: 36px;
+  }
+  .contact-layout {
+    gap: 26px;
+  }
+  .contact-copy > p {
+    margin-top: 20px;
+    font-size: 1rem;
+  }
+  .contact-form {
+    padding: 20px;
+  }
+  .footer {
+    padding: 30px 5% 18px;
+  }
+  .footer-top {
+    gap: 25px 20px;
+    padding-bottom: 28px;
+  }
+  .footer-brand .wordmark {
+    font-size: 112px;
+  }
+  .footer-brand > span:last-child {
+    margin-top: 16px;
+  }
+  .footer-contact {
+    gap: 14px;
+  }
+  .mobile-bottom-blur {
+    height: 28px;
+    backdrop-filter: blur(7px);
+  }
+}
+
+@media (min-width: 351px) and (max-width: 760px) {
+  .price-card-top {
+    padding-right: 19px;
+    padding-left: 19px;
+  }
+}

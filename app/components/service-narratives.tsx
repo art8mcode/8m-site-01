@@ -114,27 +114,6 @@ export function ServiceNarratives() {
             </p>
           </Reveal>
         </div>
-        <ol className="process-sequence">
-          {[
-            'Strategy',
-            'Production',
-            'Distribution',
-            'Data',
-            'Next iteration',
-          ].map((step, i) => (
-            <li key={step}>
-              <Reveal delay={i * 70}>
-                <span className="meta">0{i + 1}</span>
-                <span className="process-name">{step}</span>
-                {i < 4 && (
-                  <span className="process-arrow" aria-hidden="true">
-                    →
-                  </span>
-                )}
-              </Reveal>
-            </li>
-          ))}
-        </ol>
         <Reveal className="combined-note">
           <p>
             Такий формат підходить брендам, яким потрібні не окремі ролики або
