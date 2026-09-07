@@ -3,13 +3,17 @@ import { useState, type SyntheticEvent } from 'react';
 import { ArrowUpRight, Check } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { services } from '../site-data';
+import type { ContactFormCopy, Service } from '../site-copy';
 export function ContactForm({
   service,
   onServiceChange,
+  services,
+  copy,
 }: {
   service: string;
   onServiceChange: (value: string) => void;
+  services: Service[];
+  copy: ContactFormCopy;
 }) {
   const [status, setStatus] = useState<
     'idle' | 'sending' | 'success' | 'error'
@@ -27,11 +31,10 @@ export function ContactForm({
       ]),
     );
     const errors: Record<string, string> = {};
-    if (!String(data.name).trim()) errors.name = 'Вкажіть ваше ім’я.';
+    if (!String(data.name).trim()) errors.name = copy.errors.name;
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(data.email)))
-      errors.email = 'Вкажіть коректну email-адресу.';
-    if (!String(data.message).trim())
-      errors.message = 'Розкажіть кілька слів про проєкт.';
+      errors.email = copy.errors.email;
+    if (!String(data.message).trim()) errors.message = copy.errors.message;
     setInvalid(errors);
     if (Object.keys(errors).length) {
       document.getElementById(Object.keys(errors)[0])?.focus();
@@ -45,19 +48,12 @@ export function ContactForm({
         body: JSON.stringify(data),
       });
       if (!response.ok) {
-        const body = (await response.json()) as { error?: string };
-        throw new Error(
-          body.error || 'Не вдалося надіслати заявку. Спробуйте пізніше.',
-        );
+        throw new Error(copy.errors.send);
       }
       setStatus('success');
     } catch (err) {
       setStatus('error');
-      setError(
-        err instanceof Error
-          ? err.message
-          : 'Помилка з’єднання. Спробуйте ще раз.',
-      );
+      setError(err instanceof Error ? err.message : copy.errors.connection);
     }
   }
   if (status === 'success')
@@ -66,11 +62,8 @@ export function ContactForm({
         <span className="success-icon">
           <Check />
         </span>
-        <h3>Дякуємо за заявку.</h3>
-        <p>
-          Ваше повідомлення отримано. Повернемося до вас, щоб обговорити
-          наступні кроки.
-        </p>
+        <h3>{copy.successTitle}</h3>
+        <p>{copy.successBody}</p>
         <button
           className="button button-dark"
           onClick={() => {
@@ -78,22 +71,22 @@ export function ContactForm({
             onServiceChange('');
           }}
         >
-          Ще одна ідея <ArrowUpRight size={18} />
+          {copy.anotherIdea} <ArrowUpRight size={18} />
         </button>
       </div>
     );
   return (
     <form className="contact-form" onSubmit={submit} noValidate>
       <div className="form-heading">
-        <span className="meta">ПОЧНІМО З ВАШОГО ЗАВДАННЯ</span>
-        <h3>Кілька слів про проєкт.</h3>
+        <span className="meta">{copy.eyebrow}</span>
+        <h3>{copy.title}</h3>
       </div>
       <div className="field">
-        <label htmlFor="name">Ваше ім’я *</label>
+        <label htmlFor="name">{copy.nameLabel}</label>
         <Input
           id="name"
           name="name"
-          placeholder="Як до вас звертатися?"
+          placeholder={copy.namePlaceholder}
           autoComplete="name"
           required
           maxLength={100}
@@ -107,7 +100,7 @@ export function ContactForm({
         )}
       </div>
       <div className="field">
-        <label htmlFor="email">Email *</label>
+        <label htmlFor="email">{copy.emailLabel}</label>
         <Input
           id="email"
           name="email"
@@ -126,17 +119,17 @@ export function ContactForm({
         )}
       </div>
       <div className="field">
-        <label htmlFor="service">Що вас цікавить?</label>
+        <label htmlFor="service">{copy.serviceLabel}</label>
         <Input
           id="service"
           name="service"
           list="service-options"
           value={service}
           onChange={(e) => onServiceChange(e.target.value)}
-          placeholder="Оберіть напрям або опишіть завдання"
+          placeholder={copy.servicePlaceholder}
           maxLength={150}
         />
-        <datalist id="service-options" aria-label="Послуги 8M">
+        <datalist id="service-options" aria-label={copy.servicesAria}>
           {services.map((s) => (
             <option key={s.id} value={s.name}>
               {s.name}
@@ -145,11 +138,11 @@ export function ContactForm({
         </datalist>
       </div>
       <div className="field">
-        <label htmlFor="message">Про ваш проєкт *</label>
+        <label htmlFor="message">{copy.messageLabel}</label>
         <Textarea
           id="message"
           name="message"
-          placeholder="Ідея, завдання, бажані терміни…"
+          placeholder={copy.messagePlaceholder}
           required
           maxLength={4000}
           aria-invalid={!!invalid.message}
@@ -166,12 +159,10 @@ export function ContactForm({
         disabled={status === 'sending'}
         className="button button-dark"
       >
-        {status === 'sending' ? 'Надсилаємо…' : 'Надіслати заявку'}
+        {status === 'sending' ? copy.sending : copy.submit}
         <ArrowUpRight size={20} />
       </button>
-      <p className="form-note">
-        Використаємо ваші дані лише для відповіді на цю заявку.
-      </p>
+      <p className="form-note">{copy.privacy}</p>
       {status === 'error' && (
         <div className="form-error" role="alert">
           {error}

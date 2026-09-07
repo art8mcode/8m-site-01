@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { ArrowDown, ArrowUpRight, Plus } from 'lucide-react';
 import {
@@ -9,30 +9,21 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { contact, type BillingMode, type Price } from './site-data';
 import {
-  services,
-  pricing,
-  principles,
-  faqs,
-  contact,
-  type BillingMode,
-  type Price,
-} from './site-data';
+  localeOptions,
+  localePaths,
+  siteCopy,
+  type Locale,
+  type SiteCopy,
+} from './site-copy';
 import { Reveal } from './components/reveal';
 import { ProjectMedia } from './components/media';
 import { ContactForm } from './components/contact-form';
 import { SectionLabel } from './components/section-label';
 import { ServiceNarratives } from './components/service-narratives';
 import { MobileBottomBlur, StartupIntro } from './components/site-motion';
-const nav = [
-  ['Marketing', 'marketing'],
-  ['Reels Production', 'reels'],
-  ['Marketing + Reels Production', 'combined'],
-  ['Як ми працюємо', 'approach'],
-  ['Послуги', 'services'],
-  ['Ціни', 'pricing'],
-  ['FAQ', 'faq'],
-];
+
 function Wordmark({
   className = '',
   registered = true,
@@ -46,23 +37,113 @@ function Wordmark({
     </span>
   );
 }
-function PriceLabel({ price }: { price: Price }) {
-  if (price.kind === 'request') return <>За запитом</>;
+function TextLines({
+  lines,
+  mutedLine,
+}: {
+  lines: string[];
+  mutedLine?: number;
+}) {
+  return lines.map((line, index) => (
+    <Fragment key={line}>
+      <span className={index === mutedLine ? 'muted' : undefined}>{line}</span>
+      {index < lines.length - 1 && <br />}
+    </Fragment>
+  ));
+}
+
+function PriceLabel({
+  price,
+  copy,
+}: {
+  price: Price;
+  copy: SiteCopy['pricingSection'];
+}) {
+  if (price.kind === 'request') return <>{copy.request}</>;
   return (
     <>
       <span>
-        {price.kind === 'from' ? 'від ' : ''}
+        {price.kind === 'from' ? copy.from : ''}
         {price.currency}
         {price.amount}
       </span>
-      <small>/ {price.period}</small>
+      <small>/ {copy.period[price.period]}</small>
     </>
   );
 }
-export default function Home() {
+
+function LanguageSwitcher({
+  locale,
+  label,
+  onChange,
+}: {
+  locale: Locale;
+  label: string;
+  onChange: (locale: Locale) => void;
+}) {
+  return (
+    <fieldset className="language-switcher" aria-label={label}>
+      {localeOptions.map((option) => (
+        <a
+          key={option.id}
+          href={localePaths[option.id]}
+          hrefLang={option.id}
+          lang={option.id}
+          aria-label={option.language}
+          aria-current={locale === option.id ? 'page' : undefined}
+          onClick={(event) => {
+            event.preventDefault();
+            onChange(option.id);
+          }}
+        >
+          {option.label}
+        </a>
+      ))}
+    </fieldset>
+  );
+}
+
+export function LocalizedHome({ initialLocale }: { initialLocale: Locale }) {
+  const [locale, setLocale] = useState(initialLocale);
   const [menu, setMenu] = useState(false);
   const [service, setService] = useState('');
   const [billingMode, setBillingMode] = useState<BillingMode>('monthly');
+  const copy = siteCopy[locale];
+  const { services, pricing, principles, faqs } = copy;
+
+  useEffect(() => {
+    document.documentElement.lang = copy.lang;
+    document.title = copy.meta.title;
+    document
+      .querySelector('meta[name="description"]')
+      ?.setAttribute('content', copy.meta.description);
+  }, [copy]);
+
+  useEffect(() => {
+    const syncLocale = () => {
+      const next = location.pathname.startsWith('/en')
+        ? 'en'
+        : location.pathname.startsWith('/pl')
+          ? 'pl'
+          : 'uk';
+      setLocale(next);
+      setService('');
+    };
+    addEventListener('popstate', syncLocale);
+    return () => removeEventListener('popstate', syncLocale);
+  }, []);
+
+  function changeLocale(next: Locale) {
+    if (next === locale) return;
+    const selectedIndex = services.findIndex((item) => item.name === service);
+    if (selectedIndex >= 0)
+      setService(siteCopy[next].services[selectedIndex].name);
+    setLocale(next);
+    setMenu(false);
+    const hash = location.hash;
+    history.pushState({}, '', `${localePaths[next]}${hash}`);
+  }
+
   function choose(value: string) {
     setService(value);
     document.getElementById('contact')?.scrollIntoView({
@@ -72,51 +153,60 @@ export default function Home() {
     });
   }
   return (
-    <main id="top">
+    <main id="top" lang={copy.lang}>
       <StartupIntro />
       <a className="skip-link" href="#reels">
-        До основного вмісту
+        {copy.a11y.skip}
       </a>
       <header className="header">
-        <a href="#top" aria-label="8M Studio — головна">
+        <a href="#top" aria-label={copy.a11y.home}>
           <Wordmark />
         </a>
-        <nav aria-label="Головна навігація">
-          {nav
-            .filter(([, id]) => ['marketing', 'reels', 'pricing'].includes(id))
-            .map(([name, id]) => (
+        <nav aria-label={copy.a11y.mainNav}>
+          {copy.nav
+            .filter(({ id }) => ['marketing', 'reels', 'pricing'].includes(id))
+            .map(({ name, id }) => (
               <a key={id} href={`#${id}`}>
                 {name}
               </a>
             ))}
         </nav>
-        <a href="#contact" className="header-contact">
-          Обговорити проєкт
-          <ArrowUpRight size={17} />
-        </a>
-        <button
-          className={`menu-toggle ${menu ? 'is-open' : ''}`}
-          onClick={() => setMenu(!menu)}
-          aria-expanded={menu}
-          aria-controls="mobile-menu"
-          aria-label={menu ? 'Закрити меню' : 'Відкрити меню'}
-        >
-          <span />
-          <span />
-        </button>
+        <div className="header-actions">
+          <a href="#contact" className="header-contact">
+            {copy.headerCta}
+            <ArrowUpRight size={17} />
+          </a>
+          <LanguageSwitcher
+            locale={locale}
+            label={copy.a11y.language}
+            onChange={changeLocale}
+          />
+          <button
+            className={`menu-toggle ${menu ? 'is-open' : ''}`}
+            onClick={() => setMenu(!menu)}
+            aria-expanded={menu}
+            aria-controls="mobile-menu"
+            aria-label={menu ? copy.a11y.closeMenu : copy.a11y.openMenu}
+          >
+            <span />
+            <span />
+          </button>
+        </div>
       </header>
       <nav
         id="mobile-menu"
         className="mobile-menu"
         hidden={!menu}
-        aria-label="Мобільна навігація"
+        aria-label={copy.a11y.mobileNav}
       >
-        {[...nav, ['Контакт', 'contact']].map(([name, id]) => (
-          <a key={id} href={`#${id}`} onClick={() => setMenu(false)}>
-            {name}
-            <ArrowUpRight size={22} />
-          </a>
-        ))}
+        {[...copy.nav, { name: copy.contactSection.label, id: 'contact' }].map(
+          ({ name, id }) => (
+            <a key={id} href={`#${id}`} onClick={() => setMenu(false)}>
+              {name}
+              <ArrowUpRight size={22} />
+            </a>
+          ),
+        )}
       </nav>
       <section className="hero" aria-labelledby="hero-title">
         <div className="hero-background">
@@ -125,17 +215,17 @@ export default function Home() {
               type: 'video',
               src: '/media/clip-1.mp4',
               poster: '/media/clip-1.jpg',
-              alt: 'Чорно-білий фрагмент руху та пластики',
+              alt: copy.hero.mediaAlt,
             }}
           />
         </div>
         <div className="hero-top">
           <div className="hero-identity hero-enter">
             <Wordmark registered={false} />
-            <span className="hero-subtitle">marketing & production</span>
+            <span className="hero-subtitle">{copy.hero.subtitle}</span>
           </div>
           <div className="hero-directions hero-enter">
-            <span className="meta">ТРИ НАПРЯМИ. ОДНА КОМАНДА.</span>
+            <span className="meta">{copy.hero.directions}</span>
             {services.map((s, i) => (
               <a key={s.id} href={`#${s.id}`}>
                 <span>0{i + 1}</span>
@@ -153,30 +243,24 @@ export default function Home() {
         <div className="hero-bottom">
           <div className="hero-statement hero-enter">
             <h1 id="hero-title">
-              Перетворюємо
-              <br />
-              увагу на дію.
+              <TextLines lines={copy.hero.title} />
             </h1>
             <p>
-              Стратегія задає напрям.
-              <br />
-              Продакшн надає йому форму.
+              <TextLines lines={copy.hero.description} />
             </p>
             <a className="text-link" href="#reels">
-              Дивитися роботи
+              {copy.hero.workCta}
               <ArrowDown size={16} />
             </a>
           </div>
           <div className="hero-note meta">
-            ВІД ПЕРШОЇ ІДЕЇ
-            <br />
-            ДО ФІНАЛЬНОГО КАДРУ.
+            <TextLines lines={copy.hero.note} />
           </div>
           <a href="#contact" className="hero-person hero-enter">
             <div className="avatar-wrap">
               <Image
                 src="/media/8m-avatar.jpg"
-                alt="Аватар представника 8M Studio"
+                alt={copy.hero.avatarAlt}
                 width={695}
                 height={734}
                 priority
@@ -184,10 +268,10 @@ export default function Home() {
               />
             </div>
             <div className="person-copy">
-              <span className="meta">НА ЗВ’ЯЗКУ / 8M STUDIO</span>
-              <strong>Ваш наступний проєкт починається з розмови.</strong>
+              <span className="meta">{copy.hero.contactEyebrow}</span>
+              <strong>{copy.hero.contactTitle}</strong>
               <span className="person-button">
-                Є ідея?
+                {copy.hero.contactCta}
                 <span className="circle">
                   <ArrowUpRight size={17} />
                 </span>
@@ -197,21 +281,18 @@ export default function Home() {
         </div>
       </section>
       <div className="intro-strip">
-        <span>Незалежна студія</span>
-        <span>Стратегія · Контент · Просування</span>
-        <span>8M STUDIO © 2026</span>
+        {copy.hero.strip.map((item) => (
+          <span key={item}>{item}</span>
+        ))}
       </div>
-      <ServiceNarratives />
+      <ServiceNarratives copy={copy} />
       <section id="approach" className="section approach">
-        <SectionLabel number="04" note="HOW WE WORK">
-          Як ми працюємо
+        <SectionLabel number="04" note={copy.approach.note}>
+          {copy.approach.label}
         </SectionLabel>
         <Reveal className="section-heading">
-          <h2>Чіткий процес.</h2>
-          <p>
-            Від першого брифу до запуску — без хаосу, з ясним обсягом, ролями та
-            наступними кроками.
-          </p>
+          <h2>{copy.approach.title}</h2>
+          <p>{copy.approach.description}</p>
         </Reveal>
         <div className="principle-grid">
           {principles.map(([title, text], i) => (
@@ -239,16 +320,18 @@ export default function Home() {
               type: 'video',
               src: '/media/services-texture.mp4',
               poster: '/media/services-texture.jpg',
-              alt: 'Темна рухома текстура',
+              alt: copy.servicesSection.mediaAlt,
             }}
           />
         </div>
-        <SectionLabel number="05" note="WHAT WE DO">
-          Послуги
+        <SectionLabel number="05" note={copy.servicesSection.note}>
+          {copy.servicesSection.label}
         </SectionLabel>
         <div className="services-layout">
           <Reveal>
-            <h2 className="services-intro-title">Формат під завдання.</h2>
+            <h2 className="services-intro-title">
+              {copy.servicesSection.title}
+            </h2>
           </Reveal>
           <Accordion defaultValue={['marketing']} className="service-list">
             {services.map((s, i) => (
@@ -281,21 +364,25 @@ export default function Home() {
         </div>
       </section>
       <section id="pricing" className="pricing section">
-        <SectionLabel number="06" note="CHOOSE YOUR FORMAT">
-          Формат співпраці
+        <SectionLabel number="06" note={copy.pricingSection.note}>
+          {copy.pricingSection.label}
         </SectionLabel>
         <Reveal className="section-heading">
           <h2>
-            Формат
-            <br />
-            співпраці.
+            <TextLines lines={copy.pricingSection.title} />
           </h2>
           <p>
-            Разовий проєкт або системна щомісячна робота.
-            <br />
-            <br />
-            Обсяг, склад команди та фінальну вартість формуємо відповідно до
-            задачі.
+            {copy.pricingSection.description.map((paragraph, index) => (
+              <Fragment key={paragraph}>
+                {paragraph}
+                {index < copy.pricingSection.description.length - 1 && (
+                  <>
+                    <br />
+                    <br />
+                  </>
+                )}
+              </Fragment>
+            ))}
           </p>
         </Reveal>
         <Tabs
@@ -306,15 +393,17 @@ export default function Home() {
           <Reveal className="pricing-toolbar">
             <TabsList
               className="billing-toggle"
-              aria-label="Формат співпраці"
+              aria-label={copy.pricingSection.aria}
               data-mode={billingMode}
             >
-              <TabsTrigger value="monthly">Щомісяця</TabsTrigger>
-              <TabsTrigger value="project">Проєктно</TabsTrigger>
+              <TabsTrigger value="monthly">
+                {copy.pricingSection.monthly}
+              </TabsTrigger>
+              <TabsTrigger value="project">
+                {copy.pricingSection.project}
+              </TabsTrigger>
             </TabsList>
-            <span className="meta">
-              ТРИ НАПРЯМИ · ІНДИВІДУАЛЬНИЙ РОЗРАХУНОК
-            </span>
+            <span className="meta">{copy.pricingSection.meta}</span>
           </Reveal>
           {(['project', 'monthly'] as const).map((mode) => (
             <TabsContent value={mode} key={mode} className="pricing-panel">
@@ -334,7 +423,10 @@ export default function Home() {
                           </div>
                         </div>
                         <div className="price-value">
-                          <PriceLabel price={p.price} />
+                          <PriceLabel
+                            price={p.price}
+                            copy={copy.pricingSection}
+                          />
                         </div>
                         <p className="price-description">{p.description}</p>
                         {p.supporting && (
@@ -342,7 +434,9 @@ export default function Home() {
                         )}
                       </div>
                       <div className="price-card-details">
-                        <p className="included-title">Що входить:</p>
+                        <p className="included-title">
+                          {copy.pricingSection.included}
+                        </p>
                         <ul>
                           {p.deliverables.map((d) => (
                             <li key={d}>
@@ -373,20 +467,16 @@ export default function Home() {
         </Tabs>
       </section>
       <section id="faq" className="section faq">
-        <SectionLabel number="07" note="GOOD TO KNOW">
-          FAQ
+        <SectionLabel number="07" note={copy.faqSection.note}>
+          {copy.faqSection.label}
         </SectionLabel>
         <div className="faq-layout">
           <Reveal>
             <h2>
-              До початку
-              <br />
-              <span className="muted">розмови.</span>
+              <TextLines lines={copy.faqSection.title} mutedLine={1} />
             </h2>
             <p className="section-description">
-              Кілька відповідей про процес,
-              <br />
-              формат і наступні кроки.
+              <TextLines lines={copy.faqSection.description} />
             </p>
           </Reveal>
           <Accordion className="faq-list">
@@ -407,26 +497,25 @@ export default function Home() {
         </div>
       </section>
       <section id="contact" className="section contact-section">
-        <SectionLabel number="08" note="LET’S MAKE IT HAPPEN">
-          Контакт
+        <SectionLabel number="08" note={copy.contactSection.note}>
+          {copy.contactSection.label}
         </SectionLabel>
         <div className="contact-layout">
           <Reveal className="contact-copy">
             <h2>
-              Є ідея?
-              <br />
-              Давайте
-              <br />
-              <span>створимо.</span>
+              <TextLines lines={copy.contactSection.title} />
             </h2>
             <p>
-              Розкажіть, що задумали.
-              <br />
-              Разом визначимо наступний крок.
+              <TextLines lines={copy.contactSection.description} />
             </p>
           </Reveal>
           <Reveal delay={100}>
-            <ContactForm service={service} onServiceChange={setService} />
+            <ContactForm
+              service={service}
+              onServiceChange={setService}
+              services={services}
+              copy={copy.form}
+            />
           </Reveal>
         </div>
       </section>
@@ -436,15 +525,15 @@ export default function Home() {
             <Wordmark />
             <span>Marketing & Production</span>
           </div>
-          <nav aria-label="Навігація в підвалі">
-            {nav.map(([name, id]) => (
+          <nav aria-label={copy.a11y.footerNav}>
+            {copy.nav.map(({ name, id }) => (
               <a key={id} href={`#${id}`}>
                 {name}
               </a>
             ))}
           </nav>
           <div className="footer-contact">
-            <span className="meta">ПОЧНІМО РОЗМОВУ</span>
+            <span className="meta">{copy.footer.eyebrow}</span>
             {contact.email ? (
               <a href={`mailto:${contact.email}`}>
                 {contact.email}
@@ -452,12 +541,12 @@ export default function Home() {
               </a>
             ) : (
               <a href="#contact">
-                Обговорити проєкт
+                {copy.headerCta}
                 <ArrowUpRight size={16} />
               </a>
             )}
             {contact.socials.length > 0 && (
-              <nav aria-label="Соціальні мережі">
+              <nav aria-label={copy.a11y.socialNav}>
                 {contact.socials.map((s) => (
                   <a
                     key={s.href}
@@ -477,7 +566,7 @@ export default function Home() {
           <span>© 2026 8M Studio</span>
           <span>Marketing & Production</span>
           <a href="#top">
-            Нагору
+            {copy.footer.backToTop}
             <ArrowUpRight size={16} />
           </a>
         </div>
@@ -485,4 +574,8 @@ export default function Home() {
       <MobileBottomBlur />
     </main>
   );
+}
+
+export default function Home() {
+  return <LocalizedHome initialLocale="uk" />;
 }

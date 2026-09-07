@@ -2,50 +2,48 @@ import { Reveal } from './reveal';
 import { SectionLabel } from './section-label';
 import { ProductionExample } from './production-example';
 import { works } from '../site-data';
-export function ServiceNarratives() {
+import type { SiteCopy } from '../site-copy';
+
+function TitleLines({
+  lines,
+  mutedLine,
+}: {
+  lines: string[];
+  mutedLine?: number;
+}) {
+  return lines.map((line, index) => (
+    <span key={line} className={index === mutedLine ? 'muted' : undefined}>
+      {line}
+      {index < lines.length - 1 && <br />}
+    </span>
+  ));
+}
+
+export function ServiceNarratives({ copy }: { copy: SiteCopy }) {
+  const narratives = copy.narratives;
   return (
     <>
       <section id="marketing" className="section direction-section">
-        <SectionLabel number="01" note="STRATEGY & DIRECTION">
-          Marketing
+        <SectionLabel number="01" note={narratives.marketing.note}>
+          {narratives.marketing.label}
         </SectionLabel>
         <div className="editorial-layout">
           <Reveal>
             <h2>
-              Маркетинг
-              <br />
-              починається
-              <br />з задачі.
+              <TitleLines lines={narratives.marketing.title} />
             </h2>
           </Reveal>
           <div className="editorial-copy">
             <Reveal>
-              <p className="lead-copy">
-                Спочатку визначаємо, куди має рухатися бренд: кого залучаємо, що
-                пропонуємо, яку дію очікуємо і як будемо оцінювати результат.
-              </p>
+              <p className="lead-copy">{narratives.marketing.paragraphs[0]}</p>
             </Reveal>
             <Reveal delay={80}>
-              <p>
-                Далі поєднуємо позиціонування, контент, канали просування та
-                рекламні кампанії в одну систему навколо конкретної
-                бізнес-задачі.
-              </p>
-              <p>
-                Працюємо як з окремими маркетинговими задачами, так і з напрямом
-                на постійній основі — від стратегії до запуску, аналізу та
-                наступної ітерації.
-              </p>
+              <p>{narratives.marketing.paragraphs[1]}</p>
+              <p>{narratives.marketing.paragraphs[2]}</p>
             </Reveal>
             <Reveal delay={160}>
               <div className="tags competency-tags">
-                {[
-                  'Strategy',
-                  'Positioning',
-                  'Social Media',
-                  'Advertising',
-                  'Analytics & Optimization',
-                ].map((tag) => (
+                {copy.services[0].tags.map((tag) => (
                   <span key={tag}>{tag}</span>
                 ))}
               </div>
@@ -54,72 +52,67 @@ export function ServiceNarratives() {
         </div>
       </section>
       <section id="reels" className="section reels-section">
-        <SectionLabel number="02" note="REELS PRODUCTION">
-          Reels Production
+        <SectionLabel number="02" note={narratives.reels.note}>
+          {narratives.reels.label}
         </SectionLabel>
         <div className="editorial-layout reels-intro">
           <Reveal>
             <h2>
-              Продакшн, який
-              <br />
-              працює на увагу.
+              <TitleLines lines={narratives.reels.title} />
             </h2>
           </Reveal>
           <div className="editorial-copy">
             <Reveal>
-              <p className="lead-copy">
-                Розробляємо короткий відеоконтент для брендів, продуктів і
-                сервісів — від ідеї та зйомки до монтажу, ритму, звуку й
-                фінальної подачі.
-              </p>
+              <p className="lead-copy">{narratives.reels.paragraphs[0]}</p>
             </Reveal>
             <Reveal delay={80}>
-              <p>
-                Працюємо з різними середовищами, форматами та типами руху, але
-                завжди з однією задачею: зробити бренд помітнішим і створити
-                кадр, який утримує увагу.
-              </p>
+              <p>{narratives.reels.paragraphs[1]}</p>
             </Reveal>
           </div>
         </div>
         <div className="production-grid">
-          {works.map((example, i) => (
-            <Reveal key={example.id} delay={(i % 2) * 80}>
-              <ProductionExample example={example} />
-            </Reveal>
-          ))}
+          {works.map((example, i) => {
+            const localized = copy.works[i];
+            return (
+              <Reveal key={example.id} delay={(i % 2) * 80}>
+                <ProductionExample
+                  example={{
+                    ...example,
+                    direction: localized.direction,
+                    media: { ...example.media, alt: localized.alt },
+                  }}
+                />
+              </Reveal>
+            );
+          })}
         </div>
       </section>
       <section id="combined" className="section combined-section">
-        <SectionLabel number="03" note="ONE SYSTEM">
-          Marketing + Reels Production
+        <SectionLabel number="03" note={narratives.combined.note}>
+          {narratives.combined.label}
         </SectionLabel>
         <div className="editorial-layout">
           <Reveal>
             <h2>
-              Не окремі дії.
-              <br />
-              <span className="muted">Одна система.</span>
+              <TitleLines
+                lines={narratives.combined.title}
+                mutedLine={narratives.combined.mutedLine}
+              />
             </h2>
           </Reveal>
           <Reveal className="editorial-copy">
-            <p className="lead-copy">
-              Стратегія визначає, що говорити, кому і навіщо.
-            </p>
-            <p>Продакшн перетворює цю задачу на контент.</p>
-            <p>Дистрибуція доставляє його потрібній аудиторії.</p>
-            <p>
-              Аналітика показує, що працює і що потрібно змінити в наступному
-              циклі.
-            </p>
+            {narratives.combined.paragraphs.map((paragraph, index) => (
+              <p
+                key={paragraph}
+                className={index === 0 ? 'lead-copy' : undefined}
+              >
+                {paragraph}
+              </p>
+            ))}
           </Reveal>
         </div>
         <Reveal className="combined-note">
-          <p>
-            Такий формат підходить брендам, яким потрібні не окремі ролики або
-            разові рекламні дії, а послідовна система роботи навколо
-            маркетингової задачі.
-          </p>
+          <p>{narratives.combined.noteBody}</p>
         </Reveal>
       </section>
     </>
