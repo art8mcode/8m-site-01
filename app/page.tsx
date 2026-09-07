@@ -23,6 +23,7 @@ import { ContactForm } from './components/contact-form';
 import { SectionLabel } from './components/section-label';
 import { ServiceNarratives } from './components/service-narratives';
 import { MobileBottomBlur, StartupIntro } from './components/site-motion';
+import { TeamSection } from './components/team-section';
 
 function Wordmark({
   className = '',
@@ -466,8 +467,9 @@ export function LocalizedHome({ initialLocale }: { initialLocale: Locale }) {
           ))}
         </Tabs>
       </section>
+      <TeamSection copy={copy} />
       <section id="faq" className="section faq">
-        <SectionLabel number="07" note={copy.faqSection.note}>
+        <SectionLabel number="08" note={copy.faqSection.note}>
           {copy.faqSection.label}
         </SectionLabel>
         <div className="faq-layout">
@@ -497,7 +499,7 @@ export function LocalizedHome({ initialLocale }: { initialLocale: Locale }) {
         </div>
       </section>
       <section id="contact" className="section contact-section">
-        <SectionLabel number="08" note={copy.contactSection.note}>
+        <SectionLabel number="09" note={copy.contactSection.note}>
           {copy.contactSection.label}
         </SectionLabel>
         <div className="contact-layout">

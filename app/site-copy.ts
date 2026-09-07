@@ -31,6 +31,14 @@ export type PricingOffer = {
   cta: string;
 };
 
+export type TeamMember = {
+  name: string;
+  role: string;
+  description: string;
+  image: string;
+  imageAlt: string;
+};
+
 export type ContactFormCopy = {
   eyebrow: string;
   title: string;
@@ -127,6 +135,12 @@ export type SiteCopy = {
     request: string;
     period: Record<'project' | 'month', string>;
   };
+  teamSection: {
+    label: string;
+    note: string;
+    title: string;
+    cardMeta: string;
+  };
   faqSection: {
     label: string;
     note: string;
@@ -143,6 +157,7 @@ export type SiteCopy = {
   form: ContactFormCopy;
   services: Service[];
   pricing: Record<BillingMode, PricingOffer[]>;
+  team: TeamMember[];
   principles: [string, string][];
   faqs: [string, string][];
 };
@@ -208,6 +223,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       { name: 'Як ми працюємо', id: 'approach' },
       { name: 'Послуги', id: 'services' },
       { name: 'Ціни', id: 'pricing' },
+      { name: 'Команда', id: 'team' },
       { name: 'FAQ', id: 'faq' },
     ],
     headerCta: 'Обговорити проєкт',
@@ -315,6 +331,12 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       from: 'від ',
       request: 'За запитом',
       period: { project: 'проєкт', month: 'місяць' },
+    },
+    teamSection: {
+      label: 'Команда',
+      note: 'ЛЮДИ 8M',
+      title: 'Люди за системою.',
+      cardMeta: '8M / КОМАНДА',
     },
     faqSection: {
       label: 'FAQ',
@@ -502,6 +524,33 @@ export const siteCopy: Record<Locale, SiteCopy> = {
         },
       ],
     },
+    team: [
+      {
+        name: 'ARTEM',
+        role: 'Маркетинг і професійний продакшн',
+        description:
+          'Стратегія, креативний напрям і продакшн. Поєднує бізнес-цілі з контентом та реалізацією.',
+        image: '/media/team-artem.png',
+        imageAlt: 'Artem — Memoji у чорній шапці, великих окулярах і з бородою',
+      },
+      {
+        name: 'УЧАСНИК 02',
+        role: 'Performance та автоматизація',
+        description:
+          'Performance-системи, воронки й автоматизація. Фокус на залученні, оптимізації та масштабованих процесах.',
+        image: '/media/team-performance.png',
+        imageAlt:
+          'Учасник команди з темним зачесаним волоссям і легкою щетиною',
+      },
+      {
+        name: 'УЧАСНИЦЯ 03',
+        role: 'Соціальний контент і SMM',
+        description:
+          'Соціальні мережі, контент і комунікація. Відповідає за послідовну присутність бренду в соціальних каналах.',
+        image: '/media/team-social.png',
+        imageAlt: 'Учасниця команди з довгим темним волоссям і прямим чубчиком',
+      },
+    ],
     principles: [
       [
         'Спочатку стратегія',
@@ -581,6 +630,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       { name: 'How we work', id: 'approach' },
       { name: 'Services', id: 'services' },
       { name: 'Pricing', id: 'pricing' },
+      { name: 'Team', id: 'team' },
       { name: 'FAQ', id: 'faq' },
     ],
     headerCta: 'Discuss a project',
@@ -691,6 +741,12 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       from: 'from ',
       request: 'On request',
       period: { project: 'project', month: 'month' },
+    },
+    teamSection: {
+      label: 'Team',
+      note: 'PEOPLE OF 8M',
+      title: 'People behind the system.',
+      cardMeta: '8M / TEAM',
     },
     faqSection: {
       label: 'FAQ',
@@ -878,6 +934,33 @@ export const siteCopy: Record<Locale, SiteCopy> = {
         },
       ],
     },
+    team: [
+      {
+        name: 'ARTEM',
+        role: 'Marketing & Professional Production',
+        description:
+          'Strategy, creative direction and production. Connects business goals with content and execution.',
+        image: '/media/team-artem.png',
+        imageAlt:
+          'Artem — Memoji wearing a black beanie, large glasses and a full beard',
+      },
+      {
+        name: 'MEMBER 02',
+        role: 'Performance & Automation',
+        description:
+          'Performance systems, funnels and automation. Focused on acquisition, optimization and scalable processes.',
+        image: '/media/team-performance.png',
+        imageAlt: 'Team member with dark swept-back hair and light facial hair',
+      },
+      {
+        name: 'MEMBER 03',
+        role: 'Social Content & SMM',
+        description:
+          'Social media, content and communication. Responsible for a consistent brand presence across social channels.',
+        image: '/media/team-social.png',
+        imageAlt: 'Team member with long dark hair and straight bangs',
+      },
+    ],
     principles: [
       [
         'Strategy first',
@@ -957,6 +1040,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       { name: 'Jak pracujemy', id: 'approach' },
       { name: 'Usługi', id: 'services' },
       { name: 'Cennik', id: 'pricing' },
+      { name: 'Zespół', id: 'team' },
       { name: 'FAQ', id: 'faq' },
     ],
     headerCta: 'Omów projekt',
@@ -1064,6 +1148,12 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       from: 'od ',
       request: 'Na zapytanie',
       period: { project: 'projekt', month: 'mies.' },
+    },
+    teamSection: {
+      label: 'Zespół',
+      note: 'LUDZIE 8M',
+      title: 'Ludzie stojący za systemem.',
+      cardMeta: '8M / ZESPÓŁ',
     },
     faqSection: {
       label: 'FAQ',
@@ -1251,6 +1341,35 @@ export const siteCopy: Record<Locale, SiteCopy> = {
         },
       ],
     },
+    team: [
+      {
+        name: 'ARTEM',
+        role: 'Marketing i profesjonalna produkcja',
+        description:
+          'Strategia, kierunek kreatywny i produkcja. Łączy cele biznesowe z treściami oraz realizacją.',
+        image: '/media/team-artem.png',
+        imageAlt:
+          'Artem — Memoji w czarnej czapce, dużych okularach i z pełną brodą',
+      },
+      {
+        name: 'CZŁONEK 02',
+        role: 'Performance i automatyzacja',
+        description:
+          'Systemy performance, lejki i automatyzacja. Koncentruje się na pozyskiwaniu, optymalizacji i skalowalnych procesach.',
+        image: '/media/team-performance.png',
+        imageAlt:
+          'Członek zespołu z ciemnymi zaczesanymi włosami i lekkim zarostem',
+      },
+      {
+        name: 'CZŁONKINI 03',
+        role: 'Treści społecznościowe i SMM',
+        description:
+          'Social media, treści i komunikacja. Odpowiada za spójną obecność marki w kanałach społecznościowych.',
+        image: '/media/team-social.png',
+        imageAlt:
+          'Członkini zespołu z długimi ciemnymi włosami i prostą grzywką',
+      },
+    ],
     principles: [
       [
         'Najpierw strategia',
