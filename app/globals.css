@@ -949,6 +949,7 @@ button:hover > svg {
   color: var(--accent);
 }
 .contact-form {
+  position: relative;
   background: var(--surface-light);
   color: var(--text-primary);
   border-radius: 22px;
@@ -1035,16 +1036,37 @@ button:hover > svg {
   margin-top: -4px;
 }
 .form-error {
+  display: grid;
+  gap: 3px;
   padding: 15px;
   background: var(--background-main);
   border-left: 3px solid var(--text-primary);
   font-size: 0.875rem;
   line-height: 1.5;
 }
+.form-error strong {
+  font-weight: 650;
+}
+.form-error span {
+  color: var(--text-secondary);
+}
+.form-honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.contact-form .button:disabled {
+  cursor: wait;
+  opacity: 0.62;
+}
 .success-card {
   min-height: 430px;
   justify-content: center;
   gap: 25px;
+  animation: contact-success-in 420ms var(--ease) both;
 }
 .success-card h3 {
   font-size: 2.4rem;
@@ -1059,6 +1081,21 @@ button:hover > svg {
   background: var(--accent);
   display: grid;
   place-items: center;
+}
+@keyframes contact-success-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .success-card {
+    animation: none;
+  }
 }
 .footer {
   padding: 65px 3.2% 25px;

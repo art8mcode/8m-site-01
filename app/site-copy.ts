@@ -60,6 +60,7 @@ export type ContactFormCopy = {
   errors: {
     name: string;
     email: string;
+    service: string;
     message: string;
     send: string;
     connection: string;
@@ -377,16 +378,16 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       sending: 'Надсилаємо…',
       submit: 'Надіслати заявку',
       privacy: 'Використаємо ваші дані лише для відповіді на цю заявку.',
-      successTitle: 'Дякуємо за заявку.',
-      successBody:
-        'Ваше повідомлення отримано. Повернемося до вас, щоб обговорити наступні кроки.',
+      successTitle: 'Заявку отримано.',
+      successBody: 'Дякуємо. Повернемося з відповіддю найближчим часом.',
       anotherIdea: 'Ще одна ідея',
       errors: {
         name: 'Вкажіть ваше ім’я.',
         email: 'Вкажіть коректну email-адресу.',
+        service: 'Оберіть один із запропонованих напрямів.',
         message: 'Розкажіть кілька слів про проєкт.',
-        send: 'Не вдалося надіслати заявку. Спробуйте пізніше.',
-        connection: 'Помилка з’єднання. Спробуйте ще раз.',
+        send: 'Не вдалося надіслати заявку.',
+        connection: 'Спробуйте ще раз або зв’яжіться з нами напряму.',
       },
     },
     services: [
@@ -807,16 +808,16 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       sending: 'Sending…',
       submit: 'Send enquiry',
       privacy: 'We’ll use your details only to reply to this enquiry.',
-      successTitle: 'Thank you for your enquiry.',
-      successBody:
-        'We’ve received your message and will get back to discuss the next steps.',
+      successTitle: 'Enquiry received.',
+      successBody: 'Thank you. We’ll get back to you shortly.',
       anotherIdea: 'Another idea',
       errors: {
         name: 'Please enter your name.',
         email: 'Please enter a valid email address.',
+        service: 'Please choose one of the listed directions.',
         message: 'Tell us a little about your project.',
-        send: 'We couldn’t send your enquiry. Please try again later.',
-        connection: 'Connection error. Please try again.',
+        send: 'We couldn’t send your enquiry.',
+        connection: 'Please try again or contact us directly.',
       },
     },
     services: [
@@ -1235,16 +1236,16 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       sending: 'Wysyłamy…',
       submit: 'Wyślij zapytanie',
       privacy: 'Użyjemy Twoich danych wyłącznie do odpowiedzi na to zapytanie.',
-      successTitle: 'Dziękujemy za wiadomość.',
-      successBody:
-        'Otrzymaliśmy Twoje zgłoszenie. Wrócimy z odpowiedzią, aby omówić kolejne kroki.',
+      successTitle: 'Zgłoszenie otrzymane.',
+      successBody: 'Dziękujemy. Wkrótce wrócimy z odpowiedzią.',
       anotherIdea: 'Kolejny pomysł',
       errors: {
         name: 'Wpisz swoje imię.',
         email: 'Wpisz poprawny adres email.',
+        service: 'Wybierz jeden z dostępnych kierunków.',
         message: 'Napisz kilka słów o projekcie.',
-        send: 'Nie udało się wysłać zapytania. Spróbuj ponownie później.',
-        connection: 'Błąd połączenia. Spróbuj ponownie.',
+        send: 'Nie udało się wysłać zapytania.',
+        connection: 'Spróbuj ponownie lub skontaktuj się z nami bezpośrednio.',
       },
     },
     services: [

@@ -1,5 +1,5 @@
 'use client';
-import { useState, type SyntheticEvent } from 'react';
+import { useRef, useState, type SyntheticEvent } from 'react';
 import { ArrowUpRight, Check } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -20,12 +20,13 @@ export function ContactForm({
   >('idle');
   const [error, setError] = useState('');
   const [invalid, setInvalid] = useState<Record<string, string>>({});
+  const submitting = useRef(false);
   async function submit(e: SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (status === 'sending') return;
+    if (submitting.current) return;
     const raw = new FormData(e.currentTarget);
     const data = Object.fromEntries(
-      ['name', 'email', 'service', 'message'].map((key) => [
+      ['name', 'email', 'service', 'message', 'companyWebsite'].map((key) => [
         key,
         typeof raw.get(key) === 'string' ? (raw.get(key) as string) : '',
       ]),
@@ -34,12 +35,20 @@ export function ContactForm({
     if (!String(data.name).trim()) errors.name = copy.errors.name;
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(data.email)))
       errors.email = copy.errors.email;
+    if (
+      String(data.service).trim() &&
+      !services.some((item) => item.name === String(data.service).trim())
+    )
+      errors.service = copy.errors.service;
     if (!String(data.message).trim()) errors.message = copy.errors.message;
+    setError('');
     setInvalid(errors);
     if (Object.keys(errors).length) {
+      setStatus('idle');
       document.getElementById(Object.keys(errors)[0])?.focus();
       return;
     }
+    submitting.current = true;
     setStatus('sending');
     try {
       const response = await fetch('/api/contact', {
@@ -51,20 +60,23 @@ export function ContactForm({
         throw new Error(copy.errors.send);
       }
       setStatus('success');
-    } catch (err) {
+    } catch {
       setStatus('error');
-      setError(err instanceof Error ? err.message : copy.errors.connection);
+      setError(copy.errors.send);
+    } finally {
+      submitting.current = false;
     }
   }
   if (status === 'success')
     return (
-      <div className="contact-form success-card">
+      <div className="contact-form success-card" aria-live="polite">
         <span className="success-icon">
           <Check />
         </span>
         <h3>{copy.successTitle}</h3>
         <p>{copy.successBody}</p>
         <button
+          type="button"
           className="button button-dark"
           onClick={() => {
             setStatus('idle');
@@ -76,7 +88,22 @@ export function ContactForm({
       </div>
     );
   return (
-    <form className="contact-form" onSubmit={submit} noValidate>
+    <form
+      className="contact-form"
+      onSubmit={submit}
+      noValidate
+      aria-busy={status === 'sending'}
+    >
+      <div className="form-honeypot" aria-hidden="true">
+        <label htmlFor="companyWebsite">Company website</label>
+        <input
+          id="companyWebsite"
+          name="companyWebsite"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
       <div className="form-heading">
         <span className="meta">{copy.eyebrow}</span>
         <h3>{copy.title}</h3>
@@ -128,6 +155,8 @@ export function ContactForm({
           onChange={(e) => onServiceChange(e.target.value)}
           placeholder={copy.servicePlaceholder}
           maxLength={150}
+          aria-invalid={!!invalid.service}
+          aria-describedby={invalid.service ? 'service-error' : undefined}
         />
         <datalist id="service-options" aria-label={copy.servicesAria}>
           {services.map((s) => (
@@ -136,6 +165,11 @@ export function ContactForm({
             </option>
           ))}
         </datalist>
+        {invalid.service && (
+          <span className="field-error" id="service-error">
+            {invalid.service}
+          </span>
+        )}
       </div>
       <div className="field">
         <label htmlFor="message">{copy.messageLabel}</label>
@@ -157,6 +191,7 @@ export function ContactForm({
       <button
         type="submit"
         disabled={status === 'sending'}
+        aria-disabled={status === 'sending'}
         className="button button-dark"
       >
         {status === 'sending' ? copy.sending : copy.submit}
@@ -164,8 +199,9 @@ export function ContactForm({
       </button>
       <p className="form-note">{copy.privacy}</p>
       {status === 'error' && (
-        <div className="form-error" role="alert">
-          {error}
+        <div className="form-error" role="alert" aria-live="assertive">
+          <strong>{error}</strong>
+          <span>{copy.errors.connection}</span>
         </div>
       )}
     </form>
