@@ -10,7 +10,11 @@ export function TeamSection({ copy }: { copy: SiteCopy }) {
         {copy.teamSection.label}
       </SectionLabel>
       <Reveal className="team-heading">
-        <h2>{copy.teamSection.title}</h2>
+        <h2>
+          <span>{copy.teamSection.title[0]}</span>
+          <span className="muted">{copy.teamSection.title[1]}</span>
+        </h2>
+        <p>{copy.teamSection.description}</p>
       </Reveal>
       <div className="team-grid">
         {copy.team.map((member, index) => (
@@ -34,6 +38,14 @@ export function TeamSection({ copy }: { copy: SiteCopy }) {
                 <h3>{member.name}</h3>
                 <p className="team-role">{member.role}</p>
                 <p className="team-description">{member.description}</p>
+                <ul
+                  className="team-skills"
+                  aria-label={copy.teamSection.skillsLabel}
+                >
+                  {member.skills.map((skill) => (
+                    <li key={skill}>{skill}</li>
+                  ))}
+                </ul>
               </div>
             </article>
           </Reveal>

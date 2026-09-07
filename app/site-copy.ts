@@ -35,6 +35,7 @@ export type TeamMember = {
   name: string;
   role: string;
   description: string;
+  skills: string[];
   image: string;
   imageAlt: string;
 };
@@ -138,7 +139,9 @@ export type SiteCopy = {
   teamSection: {
     label: string;
     note: string;
-    title: string;
+    title: [string, string];
+    description: string;
+    skillsLabel: string;
     cardMeta: string;
   };
   faqSection: {
@@ -335,7 +338,10 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     teamSection: {
       label: 'Команда',
       note: 'ЛЮДИ 8M',
-      title: 'Люди за системою.',
+      title: ['Не просто команда.', 'Компетенції під задачу.'],
+      description:
+        'Strategy, production, automation і social content — кожен відповідає за свою частину системи.',
+      skillsLabel: 'Ключові компетенції',
       cardMeta: '8M / КОМАНДА',
     },
     faqSection: {
@@ -526,29 +532,46 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     },
     team: [
       {
-        name: 'ARTEM',
-        role: 'Маркетинг і професійний продакшн',
+        name: 'Artem',
+        role: 'Marketing & Professional Production',
         description:
-          'Стратегія, креативний напрям і продакшн. Поєднує бізнес-цілі з контентом та реалізацією.',
+          'Відповідає за маркетингову стратегію, creative direction і професійний Reels Production. Будує систему просування та координує проєкт від ідеї й позиціонування до зйомки та фінальної подачі.',
+        skills: [
+          'Marketing Strategy',
+          'Creative Direction',
+          'Professional Reels Production',
+          'Marketing Systems Development',
+        ],
         image: '/media/team-artem.png',
         imageAlt: 'Artem — Memoji у чорній шапці, великих окулярах і з бородою',
       },
       {
-        name: 'УЧАСНИК 02',
-        role: 'Performance та автоматизація',
+        name: 'Ihor',
+        role: 'Performance, Automation & Data',
         description:
-          'Performance-системи, воронки й автоматизація. Фокус на залученні, оптимізації та масштабованих процесах.',
+          'Відповідає за paid advertising, аналітику та технічну інфраструктуру маркетингу. Працює з рекламними акаунтами, CRM і базами даних, будує автоматизації, ботів, інтеграції та web-рішення для бізнесу.',
+        skills: [
+          'Paid Ads',
+          'Marketing Automation',
+          'Analytics & Data',
+          'CRM / Databases',
+        ],
         image: '/media/team-performance.png',
-        imageAlt:
-          'Учасник команди з темним зачесаним волоссям і легкою щетиною',
+        imageAlt: 'Ihor — Memoji з темним зачесаним волоссям і легкою щетиною',
       },
       {
-        name: 'УЧАСНИЦЯ 03',
-        role: 'Соціальний контент і SMM',
+        name: 'Karina',
+        role: 'Social Content & SMM',
         description:
-          'Соціальні мережі, контент і комунікація. Відповідає за послідовну присутність бренду в соціальних каналах.',
+          'Відповідає за регулярний social-first контент і присутність бренду в соцмережах. Stories, mobile shooting, легкі відеоформати, CapCut-монтаж, SMM, posting і content planning підтримують систему між основними зйомками.',
+        skills: [
+          'Social Content',
+          'Mobile Shooting',
+          'Stories Production',
+          'SMM',
+        ],
         image: '/media/team-social.png',
-        imageAlt: 'Учасниця команди з довгим темним волоссям і прямим чубчиком',
+        imageAlt: 'Karina — Memoji з довгим темним волоссям і прямим чубчиком',
       },
     ],
     principles: [
@@ -745,7 +768,10 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     teamSection: {
       label: 'Team',
       note: 'PEOPLE OF 8M',
-      title: 'People behind the system.',
+      title: ['More than a team.', 'The right expertise for the brief.'],
+      description:
+        'Strategy, production, automation and social content — each person owns a distinct part of the system.',
+      skillsLabel: 'Core skills',
       cardMeta: '8M / TEAM',
     },
     faqSection: {
@@ -936,29 +962,48 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     },
     team: [
       {
-        name: 'ARTEM',
+        name: 'Artem',
         role: 'Marketing & Professional Production',
         description:
-          'Strategy, creative direction and production. Connects business goals with content and execution.',
+          'Leads marketing strategy, creative direction and professional Reels Production. Builds the growth system and directs each project from idea and positioning through the shoot and final delivery.',
+        skills: [
+          'Marketing Strategy',
+          'Creative Direction',
+          'Professional Reels Production',
+          'Marketing Systems Development',
+        ],
         image: '/media/team-artem.png',
         imageAlt:
           'Artem — Memoji wearing a black beanie, large glasses and a full beard',
       },
       {
-        name: 'MEMBER 02',
-        role: 'Performance & Automation',
+        name: 'Ihor',
+        role: 'Performance, Automation & Data',
         description:
-          'Performance systems, funnels and automation. Focused on acquisition, optimization and scalable processes.',
+          'Owns paid advertising, analytics and the technical marketing infrastructure. Works with ad accounts, CRM and databases, building automations, bots, integrations and web solutions for business.',
+        skills: [
+          'Paid Ads',
+          'Marketing Automation',
+          'Analytics & Data',
+          'CRM / Databases',
+        ],
         image: '/media/team-performance.png',
-        imageAlt: 'Team member with dark swept-back hair and light facial hair',
+        imageAlt:
+          'Ihor — Memoji with dark swept-back hair and light facial hair',
       },
       {
-        name: 'MEMBER 03',
+        name: 'Karina',
         role: 'Social Content & SMM',
         description:
-          'Social media, content and communication. Responsible for a consistent brand presence across social channels.',
+          'Owns regular social-first content and the brand’s daily social presence. Stories, mobile shooting, lightweight video, CapCut editing, SMM, posting and content planning support the system between major productions.',
+        skills: [
+          'Social Content',
+          'Mobile Shooting',
+          'Stories Production',
+          'SMM',
+        ],
         image: '/media/team-social.png',
-        imageAlt: 'Team member with long dark hair and straight bangs',
+        imageAlt: 'Karina — Memoji with long dark hair and straight bangs',
       },
     ],
     principles: [
@@ -1152,7 +1197,10 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     teamSection: {
       label: 'Zespół',
       note: 'LUDZIE 8M',
-      title: 'Ludzie stojący za systemem.',
+      title: ['Nie tylko zespół.', 'Kompetencje dopasowane do zadania.'],
+      description:
+        'Strategia, produkcja, automatyzacja i social content — każdy odpowiada za swoją część systemu.',
+      skillsLabel: 'Kluczowe kompetencje',
       cardMeta: '8M / ZESPÓŁ',
     },
     faqSection: {
@@ -1343,31 +1391,48 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     },
     team: [
       {
-        name: 'ARTEM',
-        role: 'Marketing i profesjonalna produkcja',
+        name: 'Artem',
+        role: 'Marketing & Professional Production',
         description:
-          'Strategia, kierunek kreatywny i produkcja. Łączy cele biznesowe z treściami oraz realizacją.',
+          'Odpowiada za strategię marketingową, creative direction i profesjonalny Reels Production. Buduje system promocji i koordynuje projekt od pomysłu i pozycjonowania po nagrania i finalną realizację.',
+        skills: [
+          'Marketing Strategy',
+          'Creative Direction',
+          'Professional Reels Production',
+          'Marketing Systems Development',
+        ],
         image: '/media/team-artem.png',
         imageAlt:
           'Artem — Memoji w czarnej czapce, dużych okularach i z pełną brodą',
       },
       {
-        name: 'CZŁONEK 02',
-        role: 'Performance i automatyzacja',
+        name: 'Ihor',
+        role: 'Performance, Automation & Data',
         description:
-          'Systemy performance, lejki i automatyzacja. Koncentruje się na pozyskiwaniu, optymalizacji i skalowalnych procesach.',
+          'Odpowiada za paid advertising, analitykę i techniczną infrastrukturę marketingu. Pracuje z kontami reklamowymi, CRM i bazami danych, tworząc automatyzacje, boty, integracje oraz rozwiązania webowe dla biznesu.',
+        skills: [
+          'Paid Ads',
+          'Marketing Automation',
+          'Analytics & Data',
+          'CRM / Databases',
+        ],
         image: '/media/team-performance.png',
         imageAlt:
-          'Członek zespołu z ciemnymi zaczesanymi włosami i lekkim zarostem',
+          'Ihor — Memoji z ciemnymi zaczesanymi włosami i lekkim zarostem',
       },
       {
-        name: 'CZŁONKINI 03',
-        role: 'Treści społecznościowe i SMM',
+        name: 'Karina',
+        role: 'Social Content & SMM',
         description:
-          'Social media, treści i komunikacja. Odpowiada za spójną obecność marki w kanałach społecznościowych.',
+          'Odpowiada za regularny social-first content i obecność marki w social mediach. Stories, mobile shooting, lekkie wideo, montaż w CapCut, SMM, posting i content planning wspierają system między większymi produkcjami.',
+        skills: [
+          'Social Content',
+          'Mobile Shooting',
+          'Stories Production',
+          'SMM',
+        ],
         image: '/media/team-social.png',
-        imageAlt:
-          'Członkini zespołu z długimi ciemnymi włosami i prostą grzywką',
+        imageAlt: 'Karina — Memoji z długimi ciemnymi włosami i prostą grzywką',
       },
     ],
     principles: [
