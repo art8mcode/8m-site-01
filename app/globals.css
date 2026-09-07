@@ -2547,6 +2547,7 @@ button:hover > svg {
   animation: pricing-in 340ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 .pricing-grid {
+  align-items: start;
   gap: 14px;
 }
 .pricing-package {
@@ -2582,29 +2583,30 @@ button:hover > svg {
     0 9px 24px rgb(0 0 0 / 14%);
 }
 .price-card-title-row,
-.price-card-title {
+.price-card-marks {
   display: flex;
   align-items: flex-start;
 }
 .price-card-title-row {
   justify-content: space-between;
-  gap: 16px;
+  gap: 14px;
 }
-.price-card-title {
-  min-width: 0;
-  gap: 10px;
-}
-.price-card-title .meta {
-  margin-top: 5px;
+.price-card-marks {
   flex: 0 0 auto;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+}
+.price-card-marks .meta {
   color: rgb(0 0 0 / 56%);
+  font-size: 0.6875rem;
 }
 .price-card-top h3 {
-  max-width: 12ch;
+  max-width: 15ch;
   color: #000;
-  font-size: clamp(1.35rem, 1.75vw, 1.8rem);
+  font-size: clamp(1.3rem, 1.55vw, 1.6rem);
   font-weight: 600;
-  line-height: 1.05;
+  line-height: 1.08;
   letter-spacing: -0.05em;
 }
 .price-brand {
@@ -2624,10 +2626,10 @@ button:hover > svg {
   flex-direction: row;
   align-items: baseline;
   min-height: 0;
-  margin: 19px 0 13px;
+  margin: 16px 0 11px;
   gap: 9px;
   color: #000;
-  font-size: clamp(2.05rem, 3vw, 2.9rem);
+  font-size: clamp(1.95rem, 2.6vw, 2.55rem);
   font-weight: 600;
   line-height: 1;
   letter-spacing: -0.065em;
@@ -2642,12 +2644,12 @@ button:hover > svg {
   min-height: 0;
   color: rgb(0 0 0 / 70%);
   font-size: 0.9375rem;
-  font-weight: 500;
-  line-height: 1.45;
+  font-weight: 400;
+  line-height: 1.38;
   letter-spacing: -0.025em;
 }
 .pricing-support {
-  margin: 11px 0 0;
+  margin: 9px 0 0;
   color: rgb(0 0 0 / 56%);
   font-size: 0.8125rem;
   line-height: 1.45;
@@ -2656,12 +2658,12 @@ button:hover > svg {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  padding: 22px 17px 16px;
+  padding: 18px 16px 14px;
   color: #fff;
   background: #000;
 }
 .included-title {
-  margin-bottom: 14px;
+  margin-bottom: 11px;
   color: rgb(255 255 255 / 64%);
   font-size: 0.875rem;
   font-weight: 500;
@@ -2670,25 +2672,25 @@ button:hover > svg {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 9px;
+  gap: 7px;
   margin: 0;
-  padding: 0 0 20px;
+  padding: 0 0 16px;
   list-style: none;
 }
 .price-card-details li {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 8px;
   color: #fff;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.25;
   letter-spacing: -0.015em;
 }
 .included-icon {
   flex: 0 0 auto;
-  width: 17px;
-  height: 17px;
+  width: 15px;
+  height: 15px;
   display: grid;
   place-items: center;
   color: #000;
@@ -2697,12 +2699,12 @@ button:hover > svg {
 }
 .pricing-cta {
   width: 100%;
-  min-height: 48px;
+  min-height: 45px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 14px;
-  padding: 12px 16px;
+  padding: 10px 15px;
   color: #000;
   background: #fff;
   border: 1px solid #fff;
@@ -2710,7 +2712,7 @@ button:hover > svg {
   box-shadow:
     0 1px 0 rgb(255 255 255 / 75%) inset,
     0 6px 16px rgb(0 0 0 / 26%);
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: -0.02em;
@@ -2788,11 +2790,11 @@ button:hover > svg {
   .billing-toggle {
     width: 100%;
     max-width: 292px;
-    height: 46px !important;
+    height: 43px !important;
   }
   .billing-toggle [data-slot='tabs-trigger'] {
-    min-height: 36px;
-    padding: 7px 14px !important;
+    min-height: 33px;
+    padding: 6px 14px !important;
     font-size: 0.875rem;
   }
   .pricing-grid {
@@ -2803,43 +2805,73 @@ button:hover > svg {
     border-radius: 22px;
   }
   .price-card-top {
-    padding: 18px 17px 20px;
+    padding: 16px 17px 17px;
     border-radius: 17px;
   }
   .price-card-title-row {
-    gap: 12px;
-  }
-  .price-card-title {
-    gap: 8px;
+    gap: 10px;
   }
   .price-card-top h3 {
-    max-width: 11ch;
-    font-size: 1.45rem;
+    max-width: 15ch;
+    font-size: 1.35rem;
   }
   .price-value {
-    margin: 17px 0 11px;
-    font-size: clamp(2rem, 10.5vw, 2.55rem);
+    margin: 14px 0 10px;
+    font-size: clamp(1.95rem, 9.8vw, 2.35rem);
   }
   .price-description {
     font-size: 0.9375rem;
+    line-height: 1.36;
   }
   .price-card-details {
-    padding: 18px 13px 13px;
+    padding: 15px 13px 11px;
   }
   .included-title {
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
   .price-card-details ul {
-    gap: 8px;
-    padding-bottom: 17px;
+    gap: 6px;
+    padding-bottom: 14px;
   }
   .price-card-details li {
-    font-size: 0.9rem;
+    font-size: 0.875rem;
   }
   .pricing-cta {
-    min-height: 47px;
-    padding: 11px 15px;
+    min-height: 44px;
+    padding: 9px 14px;
+    font-size: 0.9375rem;
+  }
+}
+
+@media (max-width: 350px) {
+  .pricing-cta {
+    gap: 10px;
+    padding-right: 12px;
+    padding-left: 12px;
     font-size: 0.875rem;
+  }
+}
+
+@media (min-width: 351px) and (max-width: 760px) {
+  .price-card-top {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1050px) {
+  .pricing-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .pricing-package:nth-child(3) {
+    grid-column: 1 / -1;
+  }
+  .pricing-package:nth-child(3) .price-card-top h3 {
+    max-width: none;
+  }
+  .pricing-package:nth-child(3) .price-card-details ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

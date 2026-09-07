@@ -325,13 +325,13 @@ export default function Home() {
                     <article key={s.id} className="pricing-package">
                       <div className="price-card-top">
                         <div className="price-card-title-row">
-                          <div className="price-card-title">
+                          <h3>{s.name}</h3>
+                          <div className="price-card-marks">
+                            <span className="price-brand" aria-label="8m">
+                              8m<sup>®</sup>
+                            </span>
                             <span className="meta">0{i + 1}</span>
-                            <h3>{s.name}</h3>
                           </div>
-                          <span className="price-brand" aria-label="8m">
-                            8m<sup>®</sup>
-                          </span>
                         </div>
                         <div className="price-value">
                           <PriceLabel price={p.price} />
