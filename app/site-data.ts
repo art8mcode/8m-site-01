@@ -8,8 +8,11 @@ export type Price =
     };
 export type BillingMode = 'project' | 'monthly';
 export const contact = {
-  email: '',
-  socials: [] as { label: string; href: string }[],
+  email: 'art8mbiz@gmail.com',
+  socials: [
+    { label: 'Instagram', href: '' },
+    { label: 'Telegram', href: '' },
+  ],
 };
 export const services = [
   {
@@ -171,18 +174,6 @@ export type Work = {
   href?: string;
 };
 export const works: Work[] = [
-  {
-    id: 'product',
-    category: 'REELS PRODUCTION',
-    direction: 'Product / Visual Storytelling',
-    orientation: 'portrait',
-    media: {
-      type: 'video',
-      src: '/media/clip-2.mp4',
-      poster: '/media/clip-2.jpg',
-      alt: 'Деталі одягу та типографіка у відеоконтенті',
-    },
-  },
   {
     id: 'lifestyle',
     category: 'REELS PRODUCTION',

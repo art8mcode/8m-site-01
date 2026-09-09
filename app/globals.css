@@ -104,6 +104,7 @@ a {
 }
 button,
 input,
+select,
 textarea {
   font: inherit;
 }
@@ -353,9 +354,9 @@ button:hover > svg {
 }
 .hero-person {
   display: grid;
-  grid-template-columns: 0.9fr 1fr;
+  grid-template-columns: 0.78fr 1.22fr;
   gap: 6px;
-  max-width: 380px;
+  max-width: 420px;
   justify-self: end;
   width: 100%;
   transition: transform 0.3s var(--ease);
@@ -364,6 +365,7 @@ button:hover > svg {
   transform: translateY(-4px);
 }
 .avatar-wrap {
+  position: relative;
   background: var(--surface-light);
   border: 5px solid var(--surface-light);
   border-radius: 19px;
@@ -372,11 +374,14 @@ button:hover > svg {
   display: flex;
   align-items: end;
 }
-.avatar-wrap img {
+.avatar-wrap img,
+.avatar-wrap video {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: center;
   min-height: 188px;
+  transform: scale(1.32);
 }
 .person-copy {
   background: var(--surface-light);
@@ -496,8 +501,7 @@ button:hover > svg {
   bottom: 28px;
   left: 22px;
 }
-.work-arrow,
-.media-control {
+.work-arrow {
   width: 45px;
   height: 45px;
   border-radius: 50%;
@@ -513,13 +517,6 @@ button:hover > svg {
 .work-arrow:hover {
   background: var(--surface-light);
   color: var(--text-primary);
-}
-.media-control {
-  left: 20px;
-  right: auto;
-  background: var(--background-dark);
-  color: var(--text-on-dark);
-  border: 0;
 }
 .work-description {
   display: flex;
@@ -979,6 +976,7 @@ button:hover > svg {
   font-size: 0.875rem;
 }
 .field input,
+.field select,
 .field textarea {
   background: var(--background-main);
   color: var(--text-primary);
@@ -996,10 +994,12 @@ button:hover > svg {
   min-width: 0;
 }
 .field input:hover,
+.field select:hover,
 .field textarea:hover {
   border-color: #a4a4a4;
 }
 .field input:focus,
+.field select:focus,
 .field textarea:focus {
   outline: 2px solid var(--ring);
   outline-offset: 1px;
@@ -1015,6 +1015,7 @@ button:hover > svg {
   resize: vertical;
 }
 .field input[aria-invalid='true'],
+.field select[aria-invalid='true'],
 .field textarea[aria-invalid='true'] {
   border-color: var(--text-primary);
   outline: 1px solid var(--text-primary);
@@ -1057,6 +1058,23 @@ button:hover > svg {
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
+}
+.select-control {
+  position: relative;
+}
+.select-control select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 46px;
+  cursor: pointer;
+}
+.select-control svg {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  pointer-events: none;
+  color: var(--text-secondary);
+  transform: translateY(-50%);
 }
 .contact-form .button:disabled {
   cursor: wait;
@@ -1140,6 +1158,10 @@ button:hover > svg {
   gap: 20px;
   font-size: 1.0625rem;
   overflow-wrap: anywhere;
+}
+.footer-contact-placeholder {
+  color: var(--text-secondary);
+  font-size: 1.0625rem;
 }
 .footer-bottom {
   display: flex;
@@ -1352,7 +1374,8 @@ button:hover > svg {
     border-radius: 14px;
     border-width: 3px;
   }
-  .avatar-wrap img {
+  .avatar-wrap img,
+  .avatar-wrap video {
     min-height: 145px;
   }
   .person-copy {
@@ -1577,6 +1600,7 @@ button:hover > svg {
     font-size: 1.6rem;
   }
   .field input,
+  .field select,
   .field textarea {
     font-size: 1rem;
   }
@@ -1881,15 +1905,6 @@ button:hover > svg {
     rgba(20, 20, 20, 0.25)
   );
   pointer-events: none;
-}
-.hero-background .media-control {
-  z-index: 3;
-  left: auto;
-  right: 16px;
-  top: 16px;
-  bottom: auto;
-  width: 33px;
-  height: 33px;
 }
 .hero-background {
   z-index: 0;
@@ -2370,12 +2385,6 @@ button:hover > svg {
   background: linear-gradient(90deg, #00000015, #00000055);
   pointer-events: none;
 }
-.services-background .media-control {
-  top: auto;
-  bottom: 18px;
-  right: 22px;
-  z-index: 2;
-}
 .services-layout {
   gap: 6%;
 }
@@ -2497,6 +2506,7 @@ button:hover > svg {
   gap: 7px;
 }
 .field input,
+.field select,
 .field textarea {
   padding: 11px 12px;
   font-size: 16px;
@@ -3524,5 +3534,91 @@ h3 {
     min-height: 26px;
     padding: 4px 6px;
     font-size: 0.625rem;
+  }
+}
+
+/* V2.0: media, form and transition polish. */
+video::-webkit-media-controls,
+video::-webkit-media-controls-panel,
+video::-webkit-media-controls-play-button,
+video::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
+.hero-background:after {
+  background: linear-gradient(
+    to bottom,
+    rgb(20 20 20 / 18%) 0%,
+    rgb(20 20 20 / 34%) 48%,
+    rgb(20 20 20 / 82%) 77%,
+    rgb(20 20 20 / 98%) 100%
+  );
+}
+
+.production-grid > .reveal:first-child {
+  grid-row: auto;
+}
+
+.pricing {
+  box-shadow: 0 36px 48px -38px rgb(0 0 0 / 72%);
+}
+.pricing-package {
+  border-color: rgb(255 255 255 / 24%);
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 14%) inset,
+    0 0 0 1px rgb(255 255 255 / 3%),
+    0 20px 46px rgb(0 0 0 / 40%);
+}
+.price-card-top {
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 92%) inset,
+    0 0 0 1px rgb(255 255 255 / 18%),
+    0 11px 28px rgb(0 0 0 / 18%);
+}
+
+.team-heading h2 {
+  letter-spacing: -0.032em;
+}
+
+.faq-answer {
+  padding: 11px 18px 22px !important;
+}
+
+.mobile-bottom-blur {
+  position: fixed;
+  z-index: 40;
+  inset: auto 0 0;
+  display: block;
+  height: 58px;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    to bottom,
+    rgb(243 243 243 / 0%),
+    rgb(243 243 243 / 44%) 56%,
+    rgb(243 243 243 / 88%) 100%
+  );
+  -webkit-backdrop-filter: blur(13px);
+  backdrop-filter: blur(13px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 78%);
+  mask-image: linear-gradient(to bottom, transparent, #000 78%);
+  transition: opacity 240ms ease;
+}
+.mobile-bottom-blur.is-visible {
+  opacity: 1;
+}
+
+@media (max-width: 760px) {
+  .hero-person {
+    grid-template-columns: 102px 1fr;
+  }
+  .faq-answer {
+    padding: 10px 15px 19px !important;
+  }
+  .mobile-bottom-blur {
+    height: 72px;
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
   }
 }

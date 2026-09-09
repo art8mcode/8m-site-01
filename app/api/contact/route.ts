@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import { contactServiceOptions } from '../../contact-services';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -6,19 +7,19 @@ export const dynamic = 'force-dynamic';
 const MAX_REQUEST_BYTES = 8_000;
 const MAX_NAME_LENGTH = 100;
 const MAX_EMAIL_LENGTH = 254;
+const MAX_PHONE_LENGTH = 80;
+const MAX_SOCIAL_LENGTH = 200;
 const MAX_MESSAGE_LENGTH = 4_000;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const ALLOWED_SERVICES = new Set([
-  'Marketing',
-  'Reels Production',
-  'Marketing + Reels Production',
-  'Produkcja Reels',
-  'Marketing + Produkcja Reels',
-]);
+const ALLOWED_SERVICES: ReadonlySet<string> = new Set(
+  contactServiceOptions.map((service) => service.label),
+);
 
 type ContactSubmission = {
   name: string;
   email: string;
+  phone: string;
+  social: string;
   service: string;
   message: string;
   companyWebsite: string;
@@ -49,6 +50,8 @@ function validateSubmission(data: unknown): ContactSubmission | null {
   if (
     typeof input.name !== 'string' ||
     typeof input.email !== 'string' ||
+    (input.phone !== undefined && typeof input.phone !== 'string') ||
+    (input.social !== undefined && typeof input.social !== 'string') ||
     typeof input.service !== 'string' ||
     typeof input.message !== 'string' ||
     (input.companyWebsite !== undefined &&
@@ -59,6 +62,8 @@ function validateSubmission(data: unknown): ContactSubmission | null {
   const submission = {
     name: input.name.trim(),
     email: input.email.trim().toLowerCase(),
+    phone: input.phone?.trim() ?? '',
+    social: input.social?.trim() ?? '',
     service: input.service.trim(),
     message: input.message.trim(),
     companyWebsite: input.companyWebsite?.trim() ?? '',
@@ -71,6 +76,10 @@ function validateSubmission(data: unknown): ContactSubmission | null {
     !submission.email ||
     submission.email.length > MAX_EMAIL_LENGTH ||
     !EMAIL_PATTERN.test(submission.email) ||
+    submission.phone.length > MAX_PHONE_LENGTH ||
+    /[\r\n]/.test(submission.phone) ||
+    submission.social.length > MAX_SOCIAL_LENGTH ||
+    /[\r\n]/.test(submission.social) ||
     !submission.message ||
     submission.message.length > MAX_MESSAGE_LENGTH ||
     (submission.service && !ALLOWED_SERVICES.has(submission.service)) ||
@@ -85,6 +94,8 @@ function createLeadContent(submission: ContactSubmission) {
   const service = submission.service || 'Not specified';
   const safeName = escapeHtml(submission.name);
   const safeEmail = escapeHtml(submission.email);
+  const safePhone = escapeHtml(submission.phone || 'Not provided');
+  const safeSocial = escapeHtml(submission.social || 'Not provided');
   const safeService = escapeHtml(service);
   const safeMessage = escapeHtml(submission.message).replace(/\r?\n/g, '<br>');
 
@@ -101,6 +112,12 @@ function createLeadContent(submission: ContactSubmission) {
       '',
       'Email',
       submission.email,
+      '',
+      'Phone',
+      submission.phone || 'Not provided',
+      '',
+      'Social media',
+      submission.social || 'Not provided',
       '',
       'Interested in',
       service,
@@ -121,6 +138,8 @@ function createLeadContent(submission: ContactSubmission) {
         <h1 style="margin:10px 0 28px;font-size:28px;line-height:1.1">New project request</h1>
         <p style="margin:0 0 20px"><strong style="display:block;font-size:12px;color:#666">Name</strong><span style="font-size:17px">${safeName}</span></p>
         <p style="margin:0 0 20px"><strong style="display:block;font-size:12px;color:#666">Email</strong><a href="mailto:${safeEmail}" style="font-size:17px;color:#111">${safeEmail}</a></p>
+        <p style="margin:0 0 20px"><strong style="display:block;font-size:12px;color:#666">Phone</strong><span style="font-size:17px">${safePhone}</span></p>
+        <p style="margin:0 0 20px"><strong style="display:block;font-size:12px;color:#666">Social media</strong><span style="font-size:17px">${safeSocial}</span></p>
         <p style="margin:0 0 20px"><strong style="display:block;font-size:12px;color:#666">Interested in</strong><span style="font-size:17px">${safeService}</span></p>
         <div style="margin:0 0 26px"><strong style="display:block;margin-bottom:5px;font-size:12px;color:#666">Project</strong><div style="font-size:17px;line-height:1.5">${safeMessage}</div></div>
         <div style="padding-top:20px;border-top:1px solid #ddd;font-size:13px;line-height:1.55;color:#666">Submitted from: 8M Studio Website<br>Reply directly to this email to contact the lead.</div>

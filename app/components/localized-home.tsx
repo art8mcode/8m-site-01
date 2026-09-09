@@ -1,6 +1,5 @@
 'use client';
 import { Fragment, useEffect, useState } from 'react';
-import Image from 'next/image';
 import { ArrowDown, ArrowUpRight, Plus } from 'lucide-react';
 import {
   Accordion,
@@ -11,10 +10,15 @@ import {
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { contact, type BillingMode, type Price } from '../site-data';
 import {
+  contactServiceOptions,
+  type ContactService,
+} from '../contact-services';
+import {
   localeOptions,
   localePaths,
   siteCopy,
   type Locale,
+  type Service,
   type SiteCopy,
 } from '../site-copy';
 import { Reveal } from './reveal';
@@ -107,7 +111,7 @@ function LanguageSwitcher({
 export function LocalizedHome({ initialLocale }: { initialLocale: Locale }) {
   const [locale, setLocale] = useState(initialLocale);
   const [menu, setMenu] = useState(false);
-  const [service, setService] = useState('');
+  const [service, setService] = useState<ContactService | ''>('');
   const [billingMode, setBillingMode] = useState<BillingMode>('monthly');
   const copy = siteCopy[locale];
   const { services, pricing, principles, faqs } = copy;
@@ -136,17 +140,15 @@ export function LocalizedHome({ initialLocale }: { initialLocale: Locale }) {
 
   function changeLocale(next: Locale) {
     if (next === locale) return;
-    const selectedIndex = services.findIndex((item) => item.name === service);
-    if (selectedIndex >= 0)
-      setService(siteCopy[next].services[selectedIndex].name);
     setLocale(next);
     setMenu(false);
     const hash = location.hash;
     history.pushState({}, '', `${localePaths[next]}${hash}`);
   }
 
-  function choose(value: string) {
-    setService(value);
+  function choose(id: Service['id']) {
+    const option = contactServiceOptions.find((item) => item.id === id);
+    setService(option?.label ?? '');
     document.getElementById('contact')?.scrollIntoView({
       behavior: matchMedia('(prefers-reduced-motion: reduce)').matches
         ? 'instant'
@@ -259,13 +261,13 @@ export function LocalizedHome({ initialLocale }: { initialLocale: Locale }) {
           </div>
           <a href="#contact" className="hero-person hero-enter">
             <div className="avatar-wrap">
-              <Image
-                src="/media/8m-avatar.jpg"
-                alt={copy.hero.avatarAlt}
-                width={695}
-                height={734}
-                priority
-                unoptimized
+              <ProjectMedia
+                media={{
+                  type: 'video',
+                  src: '/media/hero-avatar.mp4',
+                  poster: '/media/hero-avatar.jpg',
+                  alt: copy.hero.avatarAlt,
+                }}
               />
             </div>
             <div className="person-copy">
@@ -350,10 +352,7 @@ export function LocalizedHome({ initialLocale }: { initialLocale: Locale }) {
                         <span key={t}>{t}</span>
                       ))}
                     </div>
-                    <button
-                      className="text-link"
-                      onClick={() => choose(s.name)}
-                    >
+                    <button className="text-link" onClick={() => choose(s.id)}>
                       {s.cta}
                       <ArrowUpRight size={16} />
                     </button>
@@ -453,7 +452,7 @@ export function LocalizedHome({ initialLocale }: { initialLocale: Locale }) {
                         </ul>
                         <button
                           className="pricing-cta"
-                          onClick={() => choose(s.name)}
+                          onClick={() => choose(s.id)}
                         >
                           {p.cta}
                           <ArrowUpRight size={18} />
@@ -515,7 +514,6 @@ export function LocalizedHome({ initialLocale }: { initialLocale: Locale }) {
             <ContactForm
               service={service}
               onServiceChange={setService}
-              services={services}
               copy={copy.form}
             />
           </Reveal>
@@ -547,21 +545,29 @@ export function LocalizedHome({ initialLocale }: { initialLocale: Locale }) {
                 <ArrowUpRight size={16} />
               </a>
             )}
-            {contact.socials.length > 0 && (
-              <nav aria-label={copy.a11y.socialNav}>
-                {contact.socials.map((s) => (
+            <nav aria-label={copy.a11y.socialNav}>
+              {contact.socials.map((social) =>
+                social.href ? (
                   <a
-                    key={s.href}
-                    href={s.href}
+                    key={social.label}
+                    href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {s.label}
+                    {social.label}
                     <ArrowUpRight size={15} />
                   </a>
-                ))}
-              </nav>
-            )}
+                ) : (
+                  <span
+                    key={social.label}
+                    className="footer-contact-placeholder"
+                    aria-disabled="true"
+                  >
+                    {social.label}
+                  </span>
+                ),
+              )}
+            </nav>
           </div>
         </div>
         <div className="footer-bottom">

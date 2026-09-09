@@ -1,18 +1,20 @@
 'use client';
 import { useRef, useState, type SyntheticEvent } from 'react';
-import { ArrowUpRight, Check } from 'lucide-react';
+import { ArrowUpRight, Check, ChevronDown } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import type { ContactFormCopy, Service } from '../site-copy';
+import {
+  contactServiceOptions,
+  type ContactService,
+} from '../contact-services';
+import type { ContactFormCopy } from '../site-copy';
 export function ContactForm({
   service,
   onServiceChange,
-  services,
   copy,
 }: {
-  service: string;
-  onServiceChange: (value: string) => void;
-  services: Service[];
+  service: ContactService | '';
+  onServiceChange: (value: ContactService | '') => void;
   copy: ContactFormCopy;
 }) {
   const [status, setStatus] = useState<
@@ -26,7 +28,15 @@ export function ContactForm({
     if (submitting.current) return;
     const raw = new FormData(e.currentTarget);
     const data = Object.fromEntries(
-      ['name', 'email', 'service', 'message', 'companyWebsite'].map((key) => [
+      [
+        'name',
+        'email',
+        'phone',
+        'social',
+        'service',
+        'message',
+        'companyWebsite',
+      ].map((key) => [
         key,
         typeof raw.get(key) === 'string' ? (raw.get(key) as string) : '',
       ]),
@@ -37,7 +47,9 @@ export function ContactForm({
       errors.email = copy.errors.email;
     if (
       String(data.service).trim() &&
-      !services.some((item) => item.name === String(data.service).trim())
+      !contactServiceOptions.some(
+        (item) => item.label === String(data.service).trim(),
+      )
     )
       errors.service = copy.errors.service;
     if (!String(data.message).trim()) errors.message = copy.errors.message;
@@ -146,25 +158,51 @@ export function ContactForm({
         )}
       </div>
       <div className="field">
-        <label htmlFor="service">{copy.serviceLabel}</label>
+        <label htmlFor="phone">{copy.phoneLabel}</label>
         <Input
-          id="service"
-          name="service"
-          list="service-options"
-          value={service}
-          onChange={(e) => onServiceChange(e.target.value)}
-          placeholder={copy.servicePlaceholder}
-          maxLength={150}
-          aria-invalid={!!invalid.service}
-          aria-describedby={invalid.service ? 'service-error' : undefined}
+          id="phone"
+          name="phone"
+          type="tel"
+          placeholder={copy.phonePlaceholder}
+          autoComplete="tel"
+          inputMode="tel"
+          maxLength={80}
         />
-        <datalist id="service-options" aria-label={copy.servicesAria}>
-          {services.map((s) => (
-            <option key={s.id} value={s.name}>
-              {s.name}
-            </option>
-          ))}
-        </datalist>
+      </div>
+      <div className="field">
+        <label htmlFor="social">{copy.socialLabel}</label>
+        <Input
+          id="social"
+          name="social"
+          type="text"
+          placeholder={copy.socialPlaceholder}
+          autoComplete="off"
+          maxLength={200}
+        />
+      </div>
+      <div className="field">
+        <label htmlFor="service">{copy.serviceLabel}</label>
+        <div className="select-control">
+          <select
+            id="service"
+            name="service"
+            value={service}
+            onChange={(event) =>
+              onServiceChange(event.target.value as ContactService | '')
+            }
+            aria-label={copy.servicesAria}
+            aria-invalid={!!invalid.service}
+            aria-describedby={invalid.service ? 'service-error' : undefined}
+          >
+            <option value="">{copy.servicePlaceholder}</option>
+            {contactServiceOptions.map((option) => (
+              <option key={option.id} value={option.label}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          <ChevronDown aria-hidden="true" size={19} />
+        </div>
         {invalid.service && (
           <span className="field-error" id="service-error">
             {invalid.service}

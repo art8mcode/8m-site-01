@@ -46,6 +46,10 @@ export type ContactFormCopy = {
   nameLabel: string;
   namePlaceholder: string;
   emailLabel: string;
+  phoneLabel: string;
+  phonePlaceholder: string;
+  socialLabel: string;
+  socialPlaceholder: string;
   serviceLabel: string;
   servicePlaceholder: string;
   servicesAria: string;
@@ -286,10 +290,6 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     },
     works: [
       {
-        direction: 'Product / Visual Storytelling',
-        alt: 'Деталі одягу та типографіка у відеоконтенті',
-      },
-      {
         direction: 'Lifestyle / Dynamic Edit',
         alt: 'Динамічний монтаж міських вулиць',
       },
@@ -370,8 +370,12 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       nameLabel: 'Ваше ім’я *',
       namePlaceholder: 'Як до вас звертатися?',
       emailLabel: 'Email *',
+      phoneLabel: 'Номер телефону',
+      phonePlaceholder: '+380 00 000 00 00',
+      socialLabel: 'Соцмережа',
+      socialPlaceholder: '@нікнейм або посилання',
       serviceLabel: 'Що вас цікавить?',
-      servicePlaceholder: 'Оберіть напрям або опишіть завдання',
+      servicePlaceholder: 'Оберіть напрям',
       servicesAria: 'Послуги 8M',
       messageLabel: 'Про ваш проєкт *',
       messagePlaceholder: 'Ідея, завдання, бажані терміни…',
@@ -716,10 +720,6 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     },
     works: [
       {
-        direction: 'Product / Visual Storytelling',
-        alt: 'Clothing details and typography in short-form video',
-      },
-      {
         direction: 'Lifestyle / Dynamic Edit',
         alt: 'Fast-paced edit of city streets',
       },
@@ -800,8 +800,12 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       nameLabel: 'Your name *',
       namePlaceholder: 'How should we address you?',
       emailLabel: 'Email *',
+      phoneLabel: 'Phone',
+      phonePlaceholder: '+1 000 000 0000',
+      socialLabel: 'Social media',
+      socialPlaceholder: '@handle or profile link',
       serviceLabel: 'What are you interested in?',
-      servicePlaceholder: 'Choose a direction or describe the brief',
+      servicePlaceholder: 'Choose a direction',
       servicesAria: '8M services',
       messageLabel: 'About your project *',
       messagePlaceholder: 'Idea, objective, preferred timing…',
@@ -1144,10 +1148,6 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     },
     works: [
       {
-        direction: 'Produkt / Opowieść wizualna',
-        alt: 'Detale odzieży i typografia w krótkim wideo',
-      },
-      {
         direction: 'Lifestyle / Dynamiczny montaż',
         alt: 'Dynamiczny montaż miejskich ulic',
       },
@@ -1228,8 +1228,12 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       nameLabel: 'Imię *',
       namePlaceholder: 'Jak mamy się do Ciebie zwracać?',
       emailLabel: 'Email *',
+      phoneLabel: 'Numer telefonu',
+      phonePlaceholder: '+48 000 000 000',
+      socialLabel: 'Social media',
+      socialPlaceholder: '@nazwa lub link do profilu',
       serviceLabel: 'Czego potrzebujesz?',
-      servicePlaceholder: 'Wybierz kierunek lub opisz zadanie',
+      servicePlaceholder: 'Wybierz kierunek',
       servicesAria: 'Usługi 8M',
       messageLabel: 'O projekcie *',
       messagePlaceholder: 'Pomysł, cel, preferowany termin…',

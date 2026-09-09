@@ -1,13 +1,11 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { Pause, Play } from 'lucide-react';
 import type { Work } from '../site-data';
 export function ProjectMedia({ media }: { media: NonNullable<Work['media']> }) {
   const ref = useRef<HTMLVideoElement>(null);
   const inView = useRef(false);
   const [near, setNear] = useState(false);
-  const [playing, setPlaying] = useState(false);
   const [failed, setFailed] = useState(false);
   useEffect(() => {
     const el = ref.current;
@@ -53,33 +51,20 @@ export function ProjectMedia({ media }: { media: NonNullable<Work['media']> }) {
       />
     );
   return (
-    <>
-      <video
-        ref={ref}
-        src={near ? media.src : undefined}
-        poster={media.poster}
-        muted
-        playsInline
-        loop
-        preload="none"
-        aria-label={media.alt}
-        onPlay={() => setPlaying(true)}
-        onPause={() => setPlaying(false)}
-        onError={() => setFailed(true)}
-      />
-      <button
-        className="media-control"
-        aria-label={playing ? 'Призупинити відео' : 'Відтворити відео'}
-        onClick={() => {
-          const el = ref.current;
-          if (el) {
-            if (el.paused) el.play().catch(() => setFailed(true));
-            else el.pause();
-          }
-        }}
-      >
-        {playing ? <Pause size={16} /> : <Play size={16} />}
-      </button>
-    </>
+    <video
+      ref={ref}
+      src={near ? media.src : undefined}
+      poster={media.poster}
+      autoPlay
+      muted
+      playsInline
+      loop
+      preload="metadata"
+      controls={false}
+      disablePictureInPicture
+      controlsList="nodownload nofullscreen noremoteplayback"
+      aria-label={media.alt}
+      onError={() => setFailed(true)}
+    />
   );
 }
